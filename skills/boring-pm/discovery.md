@@ -14,24 +14,22 @@ contract pull request's exact head. Not output: code, a build, a promise.
 - If the contract has a `next_question`, resume there. Never restart an
   interview; never ask what is already written.
 
-## 1b. Size the interview to the change
+## 1b. Simple or complex: size the interview to the change
 
-Ask only as much as the change needs. Before the first question, sort the need:
+Judge how much the need requires before asking anything.
 
-- **Small and visible** (a size, a colour, a spacing, a label, hiding or
-  moving one element: anything the expert can judge by looking): **no
-  interview.** Say in one sentence what you will show, show it (a preview of
-  the app when one is available, otherwise a mockup, [mockups.md](mockups.md)),
-  and let the expert accept or adjust what they see. The contract's acceptance
-  lines are the exact changes accepted (element, before → after). Leave out the
-  sections that do not apply; never fill one with "not specified".
-- **Behaviour, data, workflow or safety**: the interview below, one question at
-  a time, and only the questions whose answer would change the contract.
-- **"Just do it", "vas-y", "montre-moi"**: stop asking. Show your best reading
-  of the need, then ask the expert to accept or correct it.
-
-Showing usually beats asking: when the answer to your next question would be
-visible on the screen, show instead of asking.
+- **A simple change** is one the expert can judge by looking: how something
+  looks, reads or is placed on a screen. It needs no interview. Say in one
+  sentence what you will show, show it (a preview of the app when one is
+  available, otherwise a mockup, [mockups.md](mockups.md)), and let the expert
+  accept or adjust what they see. The acceptance lines are the exact changes
+  they accepted. Leave out the sections that do not apply rather than filling
+  them with "not specified".
+- **A complex change** touches behaviour, data, a workflow or safety. Use the
+  interview below, but ask only the questions whose answers would change the
+  contract, and show what can be shown as early as you can.
+- Listen to the expert: when they would rather see something than answer
+  questions, show your best reading and let them correct it.
 
 ## 2. The person first
 
@@ -47,8 +45,8 @@ maintain things are different; never infer one from another.
 ## 3. The interview
 
 - One question per message, in the project's language. Ask only what could
-  change behaviour, scope, safety, acceptance or priority (see 1b: a small
-  visible change gets no interview).
+  change behaviour, scope, safety, acceptance or priority (see 1b: a simple
+  change gets no interview).
 - Start from a **recent real case**, told anonymously: what triggered it, what
   they did, what was hard, what it cost. Then probe the cues they use, the
   exceptions, and what a newcomer would miss. Do not turn a judgement into an

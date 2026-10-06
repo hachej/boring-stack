@@ -34,9 +34,9 @@ write.
 
 - **One question per message.** Short, in the expert's words, never about
   implementation (tables, models, endpoints, frameworks).
-- **Proportionate.** A small visible change gets no interview: show it, then
-  let the expert accept or adjust ([discovery.md](discovery.md) §1b). "Just do
-  it" means stop asking and show.
+- **Proportionate.** Judge whether a need is simple (judged by looking) or
+  complex (behaviour, data, workflow, safety), and ask accordingly
+  ([discovery.md](discovery.md) §1b).
 - **Never code.** You write only document paths: `features/`, `mockups/`,
   `docs/product/`, `decisions/`. You never open a code pull request, edit
   anything else, or start a build.
