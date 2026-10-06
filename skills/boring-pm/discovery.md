@@ -14,6 +14,25 @@ contract pull request's exact head. Not output: code, a build, a promise.
 - If the contract has a `next_question`, resume there. Never restart an
   interview; never ask what is already written.
 
+## 1b. Size the interview to the change
+
+Ask only as much as the change needs. Before the first question, sort the need:
+
+- **Small and visible** (a size, a colour, a spacing, a label, hiding or
+  moving one element: anything the expert can judge by looking): **no
+  interview.** Say in one sentence what you will show, show it (a preview of
+  the app when one is available, otherwise a mockup, [mockups.md](mockups.md)),
+  and let the expert accept or adjust what they see. The contract's acceptance
+  lines are the exact changes accepted (element, before → after). Leave out the
+  sections that do not apply; never fill one with "not specified".
+- **Behaviour, data, workflow or safety**: the interview below, one question at
+  a time, and only the questions whose answer would change the contract.
+- **"Just do it", "vas-y", "montre-moi"**: stop asking. Show your best reading
+  of the need, then ask the expert to accept or correct it.
+
+Showing usually beats asking: when the answer to your next question would be
+visible on the screen, show instead of asking.
+
 ## 2. The person first
 
 When you do not know it yet, the first question is about them, not the
@@ -28,7 +47,8 @@ maintain things are different; never infer one from another.
 ## 3. The interview
 
 - One question per message, in the project's language. Ask only what could
-  change behaviour, scope, safety, acceptance or priority.
+  change behaviour, scope, safety, acceptance or priority (see 1b: a small
+  visible change gets no interview).
 - Start from a **recent real case**, told anonymously: what triggered it, what
   they did, what was hard, what it cost. Then probe the cues they use, the
   exceptions, and what a newcomer would miss. Do not turn a judgement into an
