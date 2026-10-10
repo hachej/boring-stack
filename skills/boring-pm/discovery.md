@@ -9,7 +9,7 @@ contract pull request's exact head. Not output: code, a build, a promise.
   one first ([tickets.md](tickets.md)); its number is the feature's `F-<n>`.
 - The contract on the default branch (`git fetch origin && git show origin/HEAD:features/F-<n>.md`)
   and on its branch if a discovery is under way (`git show origin/contract/F-<n>:features/F-<n>.md`).
-- The project's `docs/product/`, `CAPABILITIES.md` (what the app can and cannot
+- The project's `docs/product/` (with its glossary, `CONTEXT.md`), `CAPABILITIES.md` (what the app can and cannot
   do) and `decisions/`.
 - If the contract has a `next_question`, resume there. Never restart an
   interview; never ask what is already written.
@@ -28,8 +28,20 @@ Judge how much the need requires before asking anything.
 - **A complex change** touches behaviour, data, a workflow or safety. Use the
   interview below, but ask only the questions whose answers would change the
   contract, and show what can be shown as early as you can.
+- **A one-shot change** is a simple change that is also tiny and cheap to get
+  wrong: the diff is a few lines, the result is quick to judge, and trying again
+  costs almost nothing (no personal data, authentication, money or migration).
+  There is no contract. Make the change yourself on a branch and open it as a
+  **draft** pull request, titled in the expert's words, with an evidence section
+  in the body: what changed, how it was checked. Show the result, and mark it
+  "Ready for review" (`gh pr ready <pr>`) only when the expert says it is done;
+  align after they have seen the diff, not before. The Factory then checks it
+  and merges it, or asks the maintainer. You never merge it. If the change turns
+  out bigger than it looked, stop, close the draft, and take the contract path.
 - Listen to the expert: when they would rather see something than answer
   questions, show your best reading and let them correct it.
+- When open questions keep multiplying, or a second need keeps surfacing, the
+  work is too big for one contract: see §3b.
 
 ## 2. The person first
 
@@ -57,6 +69,56 @@ maintain things are different; never infer one from another.
   (`existing_work`); how fast the first useful result must come (`latency`).
 - Separate what the software should do, what it should suggest, and what the
   expert keeps deciding.
+- **Facts are your job.** What the repository, `docs/product/`, `CAPABILITIES.md`
+  or `decisions/` can tell you, you find yourself; the expert is asked only for
+  what they alone know.
+- **Recommend an answer** when the question is about a fact or a wording, so
+  that "oui" accepts it: "Je note « fiche de suivi ». C'est bien ça ?". Never
+  for a trade-off: you give the options, the expert decides. Still one question
+  per message.
+- **Reformule simplement.** When the expert seems lost, or says so, stop and
+  re-explain the current point in plain words, with a little context and the
+  glossary's terms, then repeat the one question.
+
+### Words: the glossary while you ask
+
+`docs/product/CONTEXT.md` is the project's glossary: the expert's words, each
+with a short definition and the synonyms to avoid (`_Avoid_`). Read it in §1.
+
+- When the expert uses a fuzzy word, or one that conflicts with `CONTEXT.md`,
+  the one question is "X ou Y ?": "Vous dites « client » : le patient ou
+  l'entreprise qui paie ?" Propose the precise term yourself.
+- When a term is settled, write it in `CONTEXT.md` right then, on the contract
+  branch (§4), in the expert's language: the term, a definition, `_Avoid_`.
+  Do not batch them. The approval covers the glossary as well as the contract.
+- The glossary holds words only: no tables, screens, endpoints or other
+  implementation details, no decisions, no scenarios.
+
+## 3b. When one contract is not enough: a map
+
+Stop the contract when open questions keep growing, or a second need keeps
+surfacing that does not fit this feature. Say so, and open a **map** issue:
+
+```
+gh issue create --title "[carte] <the destination, in the expert's words>" \
+  --label kind:map --label by:pm-agent --body "<body>"
+```
+
+The body has four sections, and the map is an index, never a store: a decision
+lives in its own feature issue, the map only gives its gist and a link.
+
+- `### Destination`: what reaching the end looks like, one or two lines.
+- `### Décisions prises`: one line per settled item, its title linked, with the
+  gist of the answer.
+- `### Brouillard`: what you can see coming but cannot yet put as a sharp
+  question; it becomes a feature when it can.
+- `### Hors périmètre`: what is ruled out of this effort, and why.
+
+Each decision to take is its own feature issue (`kind:feature`) and its own
+contract `F-<n>`; link it from the map. Work one decision per session, and
+refer to every item by its title, never by a number alone. These are features,
+not "tasks": that word belongs to the Factory. The Factory ignores `kind:map`
+issues.
 - Test your understanding with a fictional scenario or a mockup
   ([mockups.md](mockups.md)) before asking for approval. Exploring is not
   building: an idea can get a mockup without becoming a contract.
@@ -82,8 +144,10 @@ on the default branch (approved earlier) and you change anything the expert
 approved, the version becomes the next number, and you say plainly that the
 earlier approval no longer holds.
 
-The branch holds only `features/F-<n>.md` and files under `mockups/`. Commit and
-push: `git add features/F-<n>.md mockups/ && git commit -m "contract: F-<n> v<k>" && git push -u origin contract/F-<n>`.
+The branch holds only `features/F-<n>.md`, `docs/product/CONTEXT.md` when a term
+changed, and files under `mockups/`. Commit and
+push: `git add features/F-<n>.md mockups/ && git commit -m "contract: F-<n> v<k>" && git push -u origin contract/F-<n>`
+(add `docs/product/CONTEXT.md` to the `git add` when a term changed).
 
 The Factory opens the pull request "contract: F-<n>" for you (you cannot
 approve a pull request you opened yourself). Find it:
@@ -96,9 +160,10 @@ the Factory comments if the contract is invalid; read it with
 Only when the contract is complete and the pull request shows your last push:
 
 1. Show the expert, in their language: the summary ("Ce qui change pour vous"),
-   the scenarios, every acceptance line, what is not in this version, and the
-   exact commit: `gh pr view <pr> --json headRefOid --jq .headRefOid` (it must
-   equal `git rev-parse HEAD`).
+   the scenarios, every acceptance line, what is not in this version, the terms
+   added to the glossary, and the exact commit:
+   `gh pr view <pr> --json headRefOid --jq .headRefOid` (it must equal
+   `git rev-parse HEAD`).
 2. Ask: "Do you approve this exact version (commit `<first 7 characters>`)?"
 3. Only after an explicit yes to that question, in this session:
    `gh pr review <pr> --approve --body "<one line in their words>"`. The
