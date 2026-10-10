@@ -15,6 +15,8 @@ Adapted from pstack's `poteto-mode` (Lauren Tan, MIT) for the Boring Factory.
   state any exception in the pull request.
 - Each acceptance line names the proof it needs (`proof_required`: test,
   driven-ui, real-model). Plan that proof before the code.
+- Read `docs/product/CONTEXT.md` when it exists: the expert's words. Use its
+  terms in code, names and the pull request, and avoid its `_Avoid_` synonyms.
 - Respect the app's laws: `docs/INVARIANTS.md` and `scripts/verify/VERIFY.json` when present, `boring.json` (what is exposed), and
   `project.md`'s `check` command, which must pass.
 - A question only a person can answer: a pull request comment starting

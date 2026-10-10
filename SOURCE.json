@@ -51,6 +51,26 @@
       ]
     },
     {
+      "repo": "mattpocock/skills",
+      "path": "skills/productivity/writing-for-agents",
+      "commit": "49dd158d1076134a641b33efb035946536778336",
+      "license": "MIT (licenses/mattpocock-skills.LICENSE)",
+      "skills": [
+        "writing-for-agents"
+      ],
+      "excluded": [
+        "productivity/grill-me (wrapper around grilling)",
+        "productivity/teach (name collision with pstack's teach: ours kept)",
+        "productivity/handoff, productivity/to-questionnaire (not needed)",
+        "adapted instead of vendored: productivity/grilling and wait-what, and the domain-modeling, wayfinder and diagnosing-bugs skills, into boring-pm and the boring-mode bug-fix playbook",
+        "every other skill of the repository: wrappers over other skills, or names already taken here (tdd, prototype, code-review and the like)"
+      ],
+      "changes": [
+        "writing-for-agents: copied as is (SKILL.md, SKILL-MECHANICS.md, agents/openai.yaml); LICENSE added; it had no disable-model-invocation flag, so nothing was removed",
+        "boring-pm and boring-mode/playbooks/bug-fix.md: adapted from domain-modeling, grilling, wayfinder, wait-what and diagnosing-bugs (no files copied)"
+      ]
+    },
+    {
       "repo": "hachej/boring-factory",
       "path": "stack",
       "license": "this repository",
