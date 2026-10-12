@@ -15,15 +15,36 @@ adding styles. Install with the **shadcn** skill, which this skill depends on.
 1. **shadcn** skill, for components, composition, forms, icons, chat and CLI
    rules (`rules/`, `cli.md`, `customization.md`, `design-system.md`).
    Obey it; this skill only adds what is ours.
-2. The app's `DESIGN.md` (the look and its rules) and its **theme file**
-   (`web/src/index.css`): the only source of the exact token names and
+2. The app's `DESIGN.md` (the look and its rules) and its **core theme file**
+   (`web/src/theme.core.css`, with `theme.derived.css`): the only source of the exact token names and
    values. Do not rely on a list from memory; read the file.
 3. `cd web && npx shadcn@latest info --json` before touching `web/`.
+
+## Set the core, never the derived
+
+An app sets a **small set of core tokens** (the roles of the shadcn skill's
+`design-system.md`, "Step 4: Map Tokens to the Theme": canvas, ink, primary
+CTA, soft band, menu highlight, hairline, focus, error, status, shape, faces,
+shadows) in **`web/src/theme.core.css`**, the one file an app edits, light in
+`:root` and dark in `.dark`. Everything else (`--card`, `--popover`,
+`--secondary`, `--muted-foreground`, `--input`, all `--sidebar-*`, the status
+`-foreground` / `-soft` / `-soft-foreground`, `--chart-1..5`, the radius
+steps) is **derived** from the core with `var()` and `color-mix()` in
+`web/src/theme.derived.css`, which is the template's, hash-checked, and never
+edited. The shadcn skill makes the role mapping a manual step; our template
+makes it automatic: edit a role and every variable it maps to follows, the
+sidebar included. Never set a derived token; in the rare case one must differ,
+pin it in the `=== EXCEPTIONS ===` block of `theme.core.css` with a comment
+giving the reason and an entry under `exceptions:` in `DESIGN.md`
+(`design-theme-core-only`). Read `DESIGN.md` for the current list; do not
+trust a list from memory. A `shadcn apply` rewrites `index.css` with default
+colour variables: move the values into the core file and delete them from
+`index.css`.
 
 ## The principle
 
 Every visual value is a token, components read only tokens, and an app
-overrides any token in its theme file. Nothing else carries a visual value.
+sets the core tokens. Nothing else carries a visual value.
 The families:
 
 | Family | What the tokens cover |
@@ -46,6 +67,36 @@ through the preset, is the knob for geometry that tokens cannot reach: control
 padding, density, how raised the components are. Pick it with the table in
 `design-system.md`; tokens do the rest.
 
+## The process
+
+Minimum effort, high quality: the shadcn skill's `design-system.md` flow with
+the role mapping automated, and invariants that fail on the usual LLM mistakes.
+
+1. **Inputs.** The DESIGN.md roles (canvas, ink, primary, accent, soft band,
+   hairline, focus, error, status, sidebar) and the shadcn **style** (preset)
+   whose geometry is closest to the brand.
+2. **Scaffold.** A new app starts from the template (already shadcn, vega,
+   neutral). To change style: `cd web && npx shadcn@latest apply <preset>
+   --only theme,font`, then reapply the core values and delete the colour
+   variables `apply` wrote into `index.css`.
+3. **Set only the roles.** Write them in `DESIGN.md`, then in
+   `web/src/theme.core.css` (light and dark). The derived layer is automatic.
+4. **Recipes to variants.** A look the components lack (a hover, a size, a
+   pill) is a variant or a registry item, never ad hoc classes in a screen.
+5. **The `/design-system` page** shows the core next to what it derives and
+   every component; a new component goes on it.
+6. **Verify.** `node scripts/verify.mjs check` (the `design-*` rules), and the
+   Playwright design-system test: screenshots in light, dark and phone width,
+   WCAG AA contrast of every role pair in both modes, and the fonts named by
+   the font tokens actually loaded. Refresh the baselines on purpose
+   (`--update-snapshots`), look at every image.
+7. **Report.** In the PR: the roles changed and why, the baselines changed,
+   the rules that fired and how they were fixed.
+
+A **new app**: pick a style, write the DESIGN.md roles, set the core, verify,
+done. A **change**: edit the roles, re-run the checks, refresh the baselines
+on purpose.
+
 ## DESIGN.md
 
 One per app, at the repository root: YAML frontmatter (the tokens as the
@@ -58,14 +109,13 @@ follow the shadcn skill's `design-system.md` (steps 3 to 5) to map it.
 
 ## Customising an app's look
 
-1. Edit `DESIGN.md` (new values, and why).
-2. Change token values in the theme file. Fonts: a `registry:font` item or the
-   theme's font tokens, never a `<link>` or `@font-face` in a component.
-3. Changing the base preset or style: `cd web && npx shadcn@latest apply <preset>`
-   (`--only theme,font` to keep components). It rewrites the theme file, so
-   reapply the app's token values afterwards and read the diff. Never decode a
-   preset by hand.
-4. A needed value has no token: add one (above), then use it everywhere.
+1. Edit `DESIGN.md` (the roles, and why).
+2. Change the **core** token values in `web/src/theme.core.css`, nothing else.
+   Fonts: a `registry:font` item or the font tokens, never a `<link>` or
+   `@font-face` in a component.
+3. Changing the base preset or style: the process above, step 2.
+4. A needed value has no token: add it to the core file, register it in
+   `@theme inline`, use it everywhere.
 5. Refresh the design system page and its baselines (below).
 
 ## Lint rules
@@ -78,7 +128,15 @@ in `scripts/verify/ARCHITECTURE.json`; the `design-*` ids are the law.
 | `design-semantic-colors` | No hex, `rgb()`, `oklch()` literal or palette class (`bg-blue-500`, `text-white`) in app code. Use a semantic class (`bg-primary`, `text-muted-foreground`); if none fits, add a token |
 | `design-no-dark-overrides` | No `dark:` colour. The tokens switch with `.dark`; set the dark value in the theme file |
 | `design-gap-not-space` | No `space-x-*` or `space-y-*`. Use `flex` and `gap-*` |
-| `design-theme-one-file` | No `@theme` or theme variable outside the theme file. Move it there |
+| `design-theme-one-file` | No `@theme` or theme variable outside the three theme files (`theme.core.css`, `theme.derived.css`, `index.css`). Move it there |
+| `design-theme-core-only` | Set only core tokens in `theme.core.css`; `theme.derived.css` is hash-checked; a derived token is pinned only in the commented, DESIGN.md-listed EXCEPTIONS block |
+| `design-theme-roles-both-modes` | Every colour role is defined in `:root` and `.dark` |
+| `design-size-not-wh` | `w-4 h-4` (equal) becomes `size-4` |
+| `design-no-overlay-z-index` | No `z-*` on Dialog, Sheet, Popover, DropdownMenu, Tooltip…; they stack themselves |
+| `design-overlay-has-title` | Every DialogContent / AlertDialogContent / SheetContent / DrawerContent has its Title in the file (`sr-only` to hide it) |
+| `design-icon-in-button` | An icon in a Button takes `data-icon`, no `size-*` / `w-*` / `h-*` |
+| `design-no-raw-controls` | No `<button>`, `<input>`, `<select>`, `<textarea>` with a `className`: use the shadcn component |
+| `design-no-inline-color` | No literal colour in `style={{ }}`; use a class or `var(--token)` |
 | `design-tokens-only` | No arbitrary value (`text-[..]`, `rounded-[..]`, `shadow-[..]`). Use a scale step, or add a token |
 
 Fix the code, not the rule: never add an `allow` entry to pass. Exempt today:
@@ -134,13 +192,13 @@ shadows. No component changes:
    shadows").
 2. Style: boxy and sharp, so `npx shadcn@latest apply lyra --only theme,font`
    if the base is still the default; check the diff.
-3. Theme file, values only: `--primary` indigo with its foreground,
-   `--accent` lime with its foreground, `--ring` indigo; the dark values in
-   `.dark` (not in components); radius tiers pinned to 2 to 4px; the border
+3. Core file (`theme.core.css`), values only: `--primary` indigo with its foreground,
+   `--accent` lime, `--ring` indigo (the sidebar, `accent-foreground` and
+   charts follow by themselves); the dark values in `.dark`; `--radius` at 0.25rem (every step follows); the border
    width token set to 2px; the shadow scale set to hard offsets
    (`4px 4px 0 0 var(--foreground)` style, zero blur); display, sans and mono
-   font tokens to the three families, loaded as fonts in the theme; status and
-   chart colours retuned to the palette.
+   font tokens to the three families, loaded as fonts in the theme; the status colours retuned
+   to the palette (their soft variants follow).
 4. Screens keep `bg-primary`, `rounded-lg`, `shadow-md`, `font-display`
    (names as in the theme file). Run `verify check`: no rule fires.
 5. Update the `/design-system` baselines and review each image in light and
