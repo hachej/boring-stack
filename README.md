@@ -32,6 +32,7 @@ hachej/boring-stack -y`); app repositories carry no skills.
 | `new-agent`, `verify-app`, `verify-this`, `platform-request`, `reflect` | Working in a Boring app: capabilities, verification, platform requests, learning |
 | `principle-*`, `how`, `why`, `architect`, `arena`, `blast-radius`, `interrogate`, `tdd`, `figure-it-out`, `show-me-your-work`, `teach`, `technical-writing`, `unslop`, `no-comments`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill` | pstack (Lauren Tan, MIT) |
 | `emil-design-eng`, `animate`, `review-animations`, `find-animation-opportunities`, `pick-ui-library`, `mobile-native`, `prototype` | Emil Kowalski's interface skills (MIT) |
+| `boring-design-system` + `shadcn` | Every app's design system: shadcn base, one theme file, `DESIGN.md`, tokens only (`shadcn` is vendored from shadcn-ui/ui, MIT) |
 | `make-interfaces-feel-better`, `interaction-design`, `frontend-design` | From poteto/noodle (MIT; `frontend-design` Apache-2.0) |
 
 Sources and commits: `SOURCE.json`; attribution: `THIRD_PARTY.md`; each

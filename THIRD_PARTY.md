@@ -9,11 +9,13 @@ Licence texts: `licenses/`.
 | `emil-design-eng`, `animate`, `review-animations`, `find-animation-opportunities`, `pick-ui-library`, `mobile-native`, `prototype` | emilkowalski/skills (Emil Kowalski) | MIT |
 | `writing-for-agents` (as is) | mattpocock/skills (Matt Pocock), commit 49dd158, `licenses/mattpocock-skills.LICENSE` | MIT |
 | `boring-pm` (one-shot lane, glossary while asking, recommended answers, map, "Reformule simplement") and the bug-fix playbook of `boring-mode`: adapted, inspired by Matt Pocock's skills (MIT) `domain-modeling`, `grilling`, `wayfinder`, `wait-what`, `diagnosing-bugs`, commit 49dd158d1076134a641b33efb035946536778336; no files copied | mattpocock/skills (Matt Pocock) | MIT |
+| `shadcn` (as is), commit 2d3f1cd, `shadcn/LICENSE`, `licenses/shadcn-ui.LICENSE` | shadcn-ui/ui `skills/shadcn` (shadcn) | MIT |
 | `make-interfaces-feel-better`, `interaction-design` | poteto/noodle (Lauren Tan) | MIT |
 | `frontend-design` | poteto/noodle, from Anthropic's skills | Apache-2.0, `frontend-design/LICENSE.txt` |
 | `reflect` (rewritten for a repository without a memory vault) | poteto/brainmaxxing (Lauren Tan) | MIT |
 | `verify-this` (surfaces adapted to the app scaffold) | cursor-team-kit `verify-this` (Cursor) | MIT |
 | `verify-app`, `new-agent`, `platform-request`, `boring-mode` | hachej/boring-factory | this repository |
+| `boring-design-system` (depends on `shadcn`) | this repository | this repository |
 
 The structure of `verify-app` follows poteto/verification-skill-example; no
 text was copied from it.

@@ -43,8 +43,9 @@ Nothing fits, or the work is large and cross-cutting: **figure-it-out**.
 
 ## UI work
 
-Build on the app's own components (`web/src/components/`) and
-tokens. When the design is open, compare variants with **prototype** first.
+Follow **boring-design-system** (with the **shadcn** skill): shadcn components,
+semantic tokens, the app's `DESIGN.md`, no ad hoc styling. Build on the app's
+own components (`web/src/components/`) and tokens. When the design is open, compare variants with **prototype** first.
 Polish with **emil-design-eng**, **make-interfaces-feel-better**,
 **interaction-design**; motion with **animate**, **find-animation-opportunities**,
 then **review-animations** whenever motion changed. Verify visually with the

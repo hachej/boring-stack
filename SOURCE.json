@@ -71,6 +71,18 @@
       ]
     },
     {
+      "repo": "shadcn-ui/ui",
+      "path": "skills/shadcn",
+      "commit": "2d3f1cd436b18ea12f24130de4df781355925b08",
+      "license": "MIT (licenses/shadcn-ui.LICENSE; shadcn/LICENSE)",
+      "skills": [
+        "shadcn"
+      ],
+      "changes": [
+        "shadcn: copied as is, every file of skills/shadcn at that commit (SKILL.md, rules/, design-system*.md, cli.md, customization.md, registry.md, mcp.md, assets/, scripts/, evals/, agents/); LICENSE added from the repository's LICENSE.md. 2d3f1cd is the latest commit that touched the path as of 2026-10-12. To update: re-copy the folder from the new commit and change this commit"
+      ]
+    },
+    {
       "repo": "hachej/boring-factory",
       "path": "stack",
       "license": "this repository",
