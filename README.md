@@ -34,6 +34,8 @@ hachej/boring-stack -y`); app repositories carry no skills.
 | `emil-design-eng`, `animate`, `review-animations`, `find-animation-opportunities`, `pick-ui-library`, `mobile-native`, `prototype` | Emil Kowalski's interface skills (MIT) |
 | `boring-design-system` + `shadcn` | Every app's design system: shadcn base, one theme file, `DESIGN.md`, tokens only (`shadcn` is vendored from shadcn-ui/ui, MIT) |
 | `make-interfaces-feel-better`, `interaction-design`, `frontend-design` | From poteto/noodle (MIT; `frontend-design` Apache-2.0) |
+| `redesign-existing-projects` | Audit and upgrade existing UI, from Leonxlnx/taste-skill, MIT. Suggests custom fonts, noise/grain textures and stock photos suited to marketing pages; in apps, follow `boring-design-system` and shadcn tokens first. |
+| `minimalist-ui` | Editorial minimalist UI, from Leonxlnx/taste-skill, MIT. In apps, express the style through `boring-design-system` and shadcn tokens first. |
 
 Sources and commits: `SOURCE.json`; attribution: `THIRD_PARTY.md`; each
 third-party skill carries its `LICENSE`.

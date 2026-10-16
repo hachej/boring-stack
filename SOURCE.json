@@ -83,6 +83,24 @@
       ]
     },
     {
+      "repo": "Leonxlnx/taste-skill",
+      "path": "skills",
+      "commit": "f624f37a8c650b9cc550253104925efe4c8de246",
+      "license": "MIT (licenses/taste-skill.LICENSE; redesign-existing-projects/LICENSE; minimalist-ui/LICENSE)",
+      "skills": [
+        "redesign-existing-projects",
+        "minimalist-ui"
+      ],
+      "excluded": [
+        "taste-skill v2 (taste-skill, design-taste-frontend): targets marketing pages and runs its own scripts",
+        "gpt-tasteskill, soft-skill, brutalist-skill, image-to-code-skill, imagegen-frontend-web, imagegen-frontend-mobile: stylistic variants out of scope",
+        "taste-skill-v1, taste-skill-v2-experimental, stitch-skill, output-skill, brandkit: outside the selected redesign and minimalist skills"
+      ],
+      "changes": [
+        "redesign-skill copied as is to redesign-existing-projects; minimalist-skill copied as is to minimalist-ui, matching their frontmatter names; LICENSE added to each from the repository's LICENSE"
+      ]
+    },
+    {
       "repo": "hachej/boring-factory",
       "path": "stack",
       "license": "this repository",
