@@ -1,6 +1,6 @@
 ---
 name: persona-sim
-description: "Stress-test a conversational agent with LLM-played people. Use for persona simulations, hidden-goal conversation evals, player-model comparisons, or testing how a PM, assistant, or support bot handles different people."
+description: "Stress-test a conversational agent with LLM-played people. Use for persona simulations, hidden-goal conversation evals, player-model comparisons, A/B testing agent variants, or testing how a PM, assistant, or support bot handles different people."
 ---
 
 # Persona sim
@@ -15,7 +15,7 @@ Separate tuning cases from fresh held-out cells before testing. Freeze the agent
 
 ## 2. Define people and goals separately
 
-Fill in the [persona template](references/persona-template.md). Include a first-person backstory, recent incident, practical stakes, domain knowledge, explicit knowledge limits, hidden goal, private facts with disclosure triggers, constraints, decision authority, language, style, starting emotion, patience, and stopping rule.
+Fill in the [persona template](references/persona-template.md) and [scenario template](references/scenario-template.md). Keep ground-truth success checks separate from player-visible facts. Include a first-person backstory, recent incident, practical stakes, domain knowledge, explicit knowledge limits, hidden goal, private facts with disclosure triggers, constraints, decision authority, language, style, starting emotion, patience, and stopping rule.
 
 Cross roles with goals rather than equating expertise with temperament. A software beginner can understand their work. An expert can be friendly. Use incidents to explain resistance instead of ordering a player to stay angry. Keep facts stable across repeats. Define acceptable refusals or alternatives before scoring.
 
@@ -43,6 +43,12 @@ Follow the [run protocol](references/running.md). Cross personas × goals × at 
 Bound concurrency across agent, player, extractor, and judge calls. Interleave roles and goals so an early budget stop does not erase a whole role. Reserve allowance for scoring and fresh held-out evaluation before tuning.
 
 Use one durable ledger for probes, pilots, retries, all model roles, and interrupted calls. Admit a call only if spent plus in-flight reservations plus its conservative reservation fits the cap. Unknown prices fail closed. Charge unknown usage at the full reservation. Preserve costs across restarts. Estimated prices are not a billing guarantee.
+
+## A/B testing
+
+To compare two agent prompts, skills, models, or tool designs, follow the [A/B testing protocol](references/ab-testing.md). Declare one changed factor, freeze both variants, and use fresh held-out scenarios. Run paired cells in the same run with identical personas, goals, private facts, seeds, and player models. Interleave A and B and reserve budget for complete pairs before starting either variant.
+
+Choose the primary metric, non-inferiority margin, and guardrails before running. Audit agent failures separately from evaluator errors in each pair. Report paired differences and uncertainty, including "no detectable difference" when warranted. Ship B only when the primary meets the declared margin and no guardrail regresses.
 
 ## 6. Read failures before changing anything
 
