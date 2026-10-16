@@ -10,6 +10,7 @@ Licence texts: `licenses/`.
 | `writing-for-agents` (as is) | mattpocock/skills (Matt Pocock), commit 49dd158, `licenses/mattpocock-skills.LICENSE` | MIT |
 | `boring-pm` (one-shot lane, glossary while asking, recommended answers, map, "Reformule simplement") and the bug-fix playbook of `boring-mode`: adapted, inspired by Matt Pocock's skills (MIT) `domain-modeling`, `grilling`, `wayfinder`, `wait-what`, `diagnosing-bugs`, commit 49dd158d1076134a641b33efb035946536778336; no files copied | mattpocock/skills (Matt Pocock) | MIT |
 | `shadcn` (as is), commit 2d3f1cd, `shadcn/LICENSE`, `licenses/shadcn-ui.LICENSE` | shadcn-ui/ui `skills/shadcn` (shadcn) | MIT |
+| `redesign-existing-projects`, `minimalist-ui` (as is), commit f624f37, `licenses/taste-skill.LICENSE`; each skill carries `LICENSE` | Leonxlnx/taste-skill (Copyright (c) 2026 Leonxlnx), `skills/redesign-skill`, `skills/minimalist-skill` | MIT |
 | `make-interfaces-feel-better`, `interaction-design` | poteto/noodle (Lauren Tan) | MIT |
 | `frontend-design` | poteto/noodle, from Anthropic's skills | Apache-2.0, `frontend-design/LICENSE.txt` |
 | `reflect` (rewritten for a repository without a memory vault) | poteto/brainmaxxing (Lauren Tan) | MIT |

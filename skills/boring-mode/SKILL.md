@@ -52,6 +52,9 @@ then **review-animations** whenever motion changed. Verify visually with the
 verify CLI (`node scripts/verify.mjs`: `viewport 375 812`, `overflow`, `a11y`,
 `screenshot`) and commit the screenshots as proof.
 
+- **redesign-existing-projects**: audit existing UI; its custom fonts, noise/grain textures and stock photos suit marketing pages. In apps, follow **boring-design-system** and shadcn tokens first.
+- **minimalist-ui**: editorial minimalist layouts; in apps, follow **boring-design-system** and shadcn tokens rather than its fixed fonts, colours or icon choices.
+
 ## Principles
 
 Read the leaf skill before applying a principle, and name in your pull request

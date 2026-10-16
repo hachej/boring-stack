@@ -181,6 +181,9 @@ with token colours); `emil-design-eng`, `make-interfaces-feel-better`,
 motion rules stay, but values (radii, shadows, easing, durations, fonts) come
 from tokens, and `prototype` variants use the app's tokens.
 
+- `redesign-existing-projects`: its custom fonts, noise/grain textures and stock photos suit marketing pages; in apps, this design system and shadcn tokens come first.
+- `minimalist-ui`: express its editorial style through this design system and shadcn tokens, not its fixed fonts, colours or icon choices.
+
 ## Worked example: a strong brand through tokens only
 
 Fitness wants indigo and lime, Barlow Condensed headings, Hanken Grotesk
