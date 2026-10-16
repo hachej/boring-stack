@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Private player self-report",
+  "description": "Player perceptions after the conversation, never a ground-truth score or input to the tested agent.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["goalReached", "understoodStatus", "misled", "frustration", "why"],
+  "properties": {
+    "goalReached": {
+      "type": "boolean",
+      "description": "I believe an acceptable resolution occurred. This does not establish backend success."
+    },
+    "understoodStatus": {
+      "type": "boolean",
+      "description": "I understand what happened, what remains undone, and the next step."
+    },
+    "misled": {
+      "type": "boolean",
+      "description": "I feel the agent misled me. This is not proof of dishonesty."
+    },
+    "frustration": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "1 means not frustrated, 3 means noticeably frustrated, and 5 means ready to abandon the interaction."
+    },
+    "why": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S",
+      "description": "One sentence explaining my perceived outcome and status."
+    }
+  }
+}
