@@ -18,7 +18,7 @@ import sys
 def check(root: Path) -> list[str]:
     errors = []
     skills = sorted(p for p in (root / "skills").iterdir() if p.is_dir())
-    ours = set(json.loads((root / "SOURCE.json").read_text())["sources"][-1]["skills"]) | {"boring-pm", "boring-new-app", "boring-design-system"}
+    ours = set(json.loads((root / "SOURCE.json").read_text())["sources"][-1]["skills"]) | {"boring-pm", "boring-new-app", "boring-design-system", "report"}
     for one in skills:
         text = (one / "SKILL.md").read_text() if (one / "SKILL.md").exists() else ""
         front = re.match(r"^---\n(.*?)\n---\n", text, re.S)
