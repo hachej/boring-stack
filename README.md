@@ -12,14 +12,32 @@ skill under `skills/<name>/`.
 
 ## Who installs what
 
+pstack (Lauren Tan, Cursor) and Matt Pocock's skills are installed from their
+own repositories, not copied here. A developer or a worker runs three commands,
+in this order:
+
+```
+npx -y skills add cursor/plugins -g -y --full-depth -s <pstack names>
+npx -y skills add mattpocock/skills -g -y -s writing-for-agents
+npx -y skills add hachej/boring-stack -g -y
+```
+
+The pstack names (`<pstack names>`, space separated): `principle-*` (the 23
+principles listed in `SOURCE.json`), `how`, `why`, `architect`, `arena`,
+`blast-radius`, `interrogate`, `tdd`, `figure-it-out`, `show-me-your-work`,
+`teach`, `technical-writing`, `unslop`, `no-comments`, `bro`,
+`typescript-best-practices`, `create-verification-skill`,
+`maintain-verification-skill`, and `verify-this` (from `cursor-team-kit`, same
+repository). The exact command is in `SOURCE.json` under `install`.
+
 | Who | Command | What they get |
 |---|---|---|
 | The expert (their local agent) | `npx skills add hachej/boring-stack --skill boring-pm -g` | `boring-pm`: the interview, the contract, approvals, trials |
-| A developer or a worker | `npx skills add hachej/boring-stack -g` (or `--skill <name>` for a list) | The whole stack, starting with `boring-mode` |
+| A developer or a worker | the three commands above | The whole stack, starting with `boring-mode` |
 | The maintainer | `npx skills add hachej/boring-stack --skill boring-new-app -g` | `boring-new-app`: a new app repository, end to end |
 
-The Factory's workers install the stack at run time (`npx skills add
-hachej/boring-stack -y`); app repositories carry no skills.
+The Factory's workers install the stack at run time with the three commands;
+app repositories carry no skills.
 
 ## The skills
 
@@ -28,9 +46,8 @@ hachej/boring-stack -y`); app repositories carry no skills.
 | `boring-pm` | The expert's product manager: interview, contract pull request, approval by review, builders' questions, trials |
 | `boring-new-app` | The maintainer: create and wire a new app repository |
 | `boring-mode` + playbooks | The workers' router: work packet, acceptance lines and their proof, playbooks (investigation, bug fix, feature, refactoring, perf, prototype, visual parity, opening a PR with the evidence table) |
-| `writing-for-agents` | The maintainer: writing skills, `AGENTS.md` and `CLAUDE.md` for agents (Matt Pocock, MIT) |
-| `new-agent`, `verify-app`, `verify-this`, `platform-request`, `reflect` | Working in a Boring app: capabilities, verification, platform requests, learning |
-| `principle-*`, `how`, `why`, `architect`, `arena`, `blast-radius`, `interrogate`, `tdd`, `figure-it-out`, `show-me-your-work`, `teach`, `technical-writing`, `unslop`, `no-comments`, `bro`, `typescript-best-practices`, `create-verification-skill`, `maintain-verification-skill` | pstack (Lauren Tan, MIT) |
+| `new-agent`, `verify-app`, `platform-request`, `reflect` | Working in a Boring app: capabilities, verification, platform requests, learning |
+| pstack, `writing-for-agents` | Not in this repository: installed from cursor/plugins and mattpocock/skills (see Who installs what) |
 | `emil-design-eng`, `animate`, `review-animations`, `find-animation-opportunities`, `pick-ui-library`, `mobile-native`, `prototype` | Emil Kowalski's interface skills (MIT) |
 | `boring-design-system` + `shadcn` | Every app's design system: shadcn base, one theme file, `DESIGN.md`, tokens only (`shadcn` is vendored from shadcn-ui/ui, MIT) |
 | `make-interfaces-feel-better`, `interaction-design`, `frontend-design` | From poteto/noodle (MIT; `frontend-design` Apache-2.0) |
@@ -55,7 +72,7 @@ The expert never touches the Factory's steps; agents never merge.
 | Triage split | none (the Factory's triage; ignores `kind:map`) | The Factory |
 | Bug intake | `boring-pm` (`tickets.md`: a `kind:bug` issue) | The expert's agent |
 | Build | `boring-mode` and its playbooks, `new-agent`, the principles | A Factory worker (`builder:agent`), or a person (`builder:human`, their PR says `Closes #N`) |
-| Tests | `tdd`, `verify-app`, `verify-this`, `principle-test-behavior-not-implementation` | The builder; CI |
+| Tests | `tdd` and `verify-this` (upstream), `verify-app`, `principle-test-behavior-not-implementation` | The builder; CI |
 | PR and evidence | `boring-mode` (`playbooks/opening-a-pr.md`, with its Merge danger line) | The builder. A human or expert-agent PR opens as a draft and is marked Ready for review when the expert says it is done |
 | Review and proof | `interrogate`, `blast-radius`; the Factory's `boring/ci` and `boring/proof` checks | The Factory |
 | Merge | none | The Factory bot only: merges when green, simple and low-risk, otherwise asks the maintainer |

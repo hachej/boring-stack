@@ -1,28 +1,55 @@
 {
-  "note": "The skills of hachej/boring-stack and where the vendored ones come from. Installed with the skills CLI (npx skills add hachej/boring-stack), never committed to an app. Vendored skills are copied as they are at these commits unless listed under changes.",
+  "note": "The skills of hachej/boring-stack and where they come from. Install with the skills CLI (see install), never committed to an app. pstack, cursor-team-kit verify-this and Matt Pocock's writing-for-agents are NOT vendored: they are installed from their upstream repositories. Vendored skills (Emil Kowalski, noodle, shadcn, taste-skill) are copied as they are at these commits unless listed under changes.",
   "sources": [
     {
       "repo": "cursor/plugins",
-      "path": "pstack/skills",
-      "commit": "c47b12849e43f18d5c374c7069c744cc55b0ea00",
-      "license": "MIT (licenses/pstack.LICENSE)",
-      "excluded": [
-        "setup-pstack",
-        "swarm",
-        "poteto-mode (replaced by boring-mode)",
-        "reflect (this repository's own version kept)",
-        "recall",
-        "make-bot-ui (wakes Cursor automations)",
-        "automate-me",
-        "playbooks orchestrate, autopilot-full, autopilot-stack, babysit, shipping, autonomous-run, worktree-cleanup, multi-phase-plan, session-pickup, pause-safely, hillclimb, eval, runtime-forensics, trace-forensics, authoring-a-skill",
-        "the Cursor plugin manifest"
+      "path": "pstack/skills (and cursor-team-kit/skills/verify-this)",
+      "license": "MIT (Lauren Tan, Cursor)",
+      "installed_not_vendored": [
+        "principle-attack-the-premise",
+        "principle-boundary-discipline",
+        "principle-build-the-lever",
+        "principle-encode-lessons-in-structure",
+        "principle-exhaust-the-design-space",
+        "principle-experience-first",
+        "principle-fix-root-causes",
+        "principle-foundational-thinking",
+        "principle-guard-the-context-window",
+        "principle-laziness-protocol",
+        "principle-make-operations-idempotent",
+        "principle-migrate-callers-then-delete-legacy-apis",
+        "principle-minimize-reader-load",
+        "principle-model-the-domain",
+        "principle-never-block-on-the-human",
+        "principle-outcome-oriented-execution",
+        "principle-prove-it-works",
+        "principle-redesign-from-first-principles",
+        "principle-separate-before-serializing-shared-state",
+        "principle-sequence-verifiable-units",
+        "principle-subtract-before-you-add",
+        "principle-test-behavior-not-implementation",
+        "principle-type-system-discipline",
+        "how",
+        "why",
+        "architect",
+        "arena",
+        "blast-radius",
+        "interrogate",
+        "tdd",
+        "figure-it-out",
+        "show-me-your-work",
+        "teach",
+        "technical-writing",
+        "unslop",
+        "no-comments",
+        "bro",
+        "typescript-best-practices",
+        "create-verification-skill",
+        "maintain-verification-skill",
+        "verify-this"
       ],
-      "changes": [
-        "boring-mode: new router from poteto-mode",
-        "boring-mode/playbooks: investigation, feature, refactoring, perf-issue, prototype, visual-parity copied with the control skill replaced by the verify CLI and configured models by the model the worker runs on; bug-fix rewritten with Benny's reproduce-and-fix; opening-a-pr rewritten for the evidence table and proof",
-        "figure-it-out: points to boring-mode",
-        "no-comments/references/comment-sicko.md: from pstack/agents"
-      ]
+      "note": "Installed from upstream. boring-mode is adapted from poteto-mode; its playbooks and the vendored copies this repository used to carry (including the figure-it-out pointer to boring-mode and the verify-this surfaces adapted to the app scaffold) are replaced by the upstream skills. Last vendored pstack commit: c47b12849e43f18d5c374c7069c744cc55b0ea00",
+      "boring_mode": "boring-mode (vendored, ours) is a new router from poteto-mode; boring-mode/playbooks: investigation, feature, refactoring, perf-issue, prototype, visual-parity copied with the control skill replaced by the verify CLI and configured models by the model the worker runs on; bug-fix rewritten with Benny's reproduce-and-fix; opening-a-pr rewritten for the evidence table and proof"
     },
     {
       "repo": "emilkowalski/skills",
@@ -55,9 +82,6 @@
       "path": "skills/productivity/writing-for-agents",
       "commit": "49dd158d1076134a641b33efb035946536778336",
       "license": "MIT (licenses/mattpocock-skills.LICENSE)",
-      "skills": [
-        "writing-for-agents"
-      ],
       "excluded": [
         "productivity/grill-me (wrapper around grilling)",
         "productivity/teach (name collision with pstack's teach: ours kept)",
@@ -66,9 +90,12 @@
         "every other skill of the repository: wrappers over other skills, or names already taken here (tdd, prototype, code-review and the like)"
       ],
       "changes": [
-        "writing-for-agents: copied as is (SKILL.md, SKILL-MECHANICS.md, agents/openai.yaml); LICENSE added; it had no disable-model-invocation flag, so nothing was removed",
         "boring-pm and boring-mode/playbooks/bug-fix.md: adapted from domain-modeling, grilling, wayfinder, wait-what and diagnosing-bugs (no files copied)"
-      ]
+      ],
+      "installed_not_vendored": [
+        "writing-for-agents"
+      ],
+      "note": "writing-for-agents is installed from upstream (last vendored commit 49dd158d1076134a641b33efb035946536778336)"
     },
     {
       "repo": "shadcn-ui/ui",
@@ -107,11 +134,15 @@
       "skills": [
         "boring-mode",
         "verify-app",
-        "verify-this",
         "new-agent",
         "platform-request",
         "reflect"
       ]
     }
+  ],
+  "install": [
+    "npx -y skills add cursor/plugins -g -y --full-depth -s principle-attack-the-premise principle-boundary-discipline principle-build-the-lever principle-encode-lessons-in-structure principle-exhaust-the-design-space principle-experience-first principle-fix-root-causes principle-foundational-thinking principle-guard-the-context-window principle-laziness-protocol principle-make-operations-idempotent principle-migrate-callers-then-delete-legacy-apis principle-minimize-reader-load principle-model-the-domain principle-never-block-on-the-human principle-outcome-oriented-execution principle-prove-it-works principle-redesign-from-first-principles principle-separate-before-serializing-shared-state principle-sequence-verifiable-units principle-subtract-before-you-add principle-test-behavior-not-implementation principle-type-system-discipline how why architect arena blast-radius interrogate tdd figure-it-out show-me-your-work teach technical-writing unslop no-comments bro typescript-best-practices create-verification-skill maintain-verification-skill verify-this",
+    "npx -y skills add mattpocock/skills -g -y -s writing-for-agents",
+    "npx -y skills add hachej/boring-stack -g -y"
   ]
 }
