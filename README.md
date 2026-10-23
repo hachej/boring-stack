@@ -27,6 +27,7 @@ hachej/boring-stack -y`); app repositories carry no skills.
 |---|---|
 | `boring-pm` | The expert's product manager: interview, contract pull request, approval by review, builders' questions, trials |
 | `boring-new-app` | The maintainer: create and wire a new app repository |
+| `boring-mobile-release` | Build/sign mobile apps, distribute through TestFlight and Google Play, and verify store releases |
 | `boring-mode` + playbooks | The workers' router: work packet, acceptance lines and their proof, playbooks (investigation, bug fix, feature, refactoring, perf, prototype, visual parity, opening a PR with the evidence table) |
 | `writing-for-agents` | The maintainer: writing skills, `AGENTS.md` and `CLAUDE.md` for agents (Matt Pocock, MIT) |
 | `new-agent`, `verify-app`, `verify-this`, `platform-request`, `reflect` | Working in a Boring app: capabilities, verification, platform requests, learning |
