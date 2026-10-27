@@ -49,8 +49,8 @@ own components (`web/src/components/`) and tokens. When the design is open, comp
 Polish with **emil-design-eng**, **make-interfaces-feel-better**,
 **interaction-design**; motion with **animate**, **find-animation-opportunities**,
 then **review-animations** whenever motion changed. Verify visually with the
-verify CLI (`node scripts/verify.mjs`: `viewport 375 812`, `overflow`, `a11y`,
-`screenshot`) and commit the screenshots as proof.
+a browser driver (`control-ui`, or the app's `npm run journey`: a 375x812 viewport, overflow, accessibility snapshot,
+screenshot) and commit the screenshots as proof.
 
 - **redesign-existing-projects**: audit existing UI; its custom fonts, noise/grain textures and stock photos suit marketing pages. In apps, follow **boring-design-system** and shadcn tokens first.
 - **minimalist-ui**: editorial minimalist layouts; in apps, follow **boring-design-system** and shadcn tokens rather than its fixed fonts, colours or icon choices.
@@ -69,7 +69,7 @@ Other skills: **how** and **why** before changing something, **architect** for
 code crossing a function boundary, **blast-radius** before shipping, **tdd**
 for a failing test first, **unslop** and **technical-writing** for every prose
 surface, **no-comments** before review, **typescript-best-practices** for
-`.ts`, **verify-app** and **verify-this** for proof.
+`.ts`, **boring-app-template** (the app's gate and journey) and **verify-this** for proof.
 
 ## Harness notes
 

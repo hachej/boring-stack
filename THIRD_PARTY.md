@@ -15,11 +15,8 @@ Licence texts: `licenses/`.
 | `frontend-design` | poteto/noodle, from Anthropic's skills | Apache-2.0, `frontend-design/LICENSE.txt` |
 | `reflect` (rewritten for a repository without a memory vault) | poteto/brainmaxxing (Lauren Tan) | MIT |
 | `verify-this` (surfaces adapted to the app scaffold) | cursor-team-kit `verify-this` (Cursor) | MIT |
-| `verify-app`, `new-agent`, `platform-request`, `boring-mode` | hachej/boring-factory | this repository |
+| `platform-request`, `boring-mode` | hachej/boring-factory | this repository |
 | `boring-design-system` (depends on `shadcn`) | this repository | this repository |
-
-The structure of `verify-app` follows poteto/verification-skill-example; no
-text was copied from it.
 
 ## pstack and brainmaxxing
 

@@ -24,8 +24,8 @@ agent. Everything they need must be in it.
   hypothesis tested each time), or the platform behaves unlike its docs.
 - The change would take more than a day, or touches security or personal data.
 
-Not for a product change you can build here: build it (skill **new-agent**,
-**verify-app**). If unsure, check `docs/CAPABILITIES.md` and `gh issue list --label
+Not for a product change you can build here: build it (skills **boring-app-template**,
+**build-app**). If unsure, check `docs/CAPABILITIES.md` and `gh issue list --label
 kind:platform --state all` (it may already be asked, or solved).
 
 ## 1. Interview the person (the most important step)

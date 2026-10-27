@@ -83,19 +83,22 @@ the role mapping automated, and invariants that fail on the usual LLM mistakes.
    `web/src/theme.core.css` (light and dark). The derived layer is automatic.
 4. **Recipes to variants.** A look the components lack (a hover, a size, a
    pill) is a variant or a registry item, never ad hoc classes in a screen.
-5. **The `/design-system` page** shows the core next to what it derives and
-   every component; a new component goes on it.
-6. **Verify.** `node scripts/verify.mjs check` (the `design-*` rules), and the
-   Playwright design-system test: screenshots in light, dark and phone width,
-   WCAG AA contrast of every role pair in both modes, and the fonts named by
-   the font tokens actually loaded. Refresh the baselines on purpose
-   (`--update-snapshots`), look at every image.
-7. **Report.** In the PR: the roles changed and why, the baselines changed,
-   the rules that fired and how they were fixed.
+5. **Look at it.** Run the app (or the preview) in light, dark and phone
+   width and check the contrast of the role pairs and that the fonts named by
+   the font tokens loaded. The bare template has no `/design-system` page; an
+   app that wants one builds it as its own screen.
+6. **Verify.** `npm run kit` and `npm run design` (see Lint rules). The
+   template's workflow, gate order and the verifier are in `boring-app-template`
+   (theme section) and the app's `AGENTS.md`.
+7. **Report.** In the PR: the roles changed and why, and the checks that fired
+   and how they were fixed.
 
 A **new app**: pick a style, write the DESIGN.md roles, set the core, verify,
-done. A **change**: edit the roles, re-run the checks, refresh the baselines
-on purpose.
+done. A **change**: edit the roles, re-run the checks.
+
+For where the theme file, `apply-look.mjs` and the checks live in an app made
+from the bare template, the `boring-app-template` skill (theme section) is the
+reference; this skill is the rules behind it.
 
 ## DESIGN.md
 
@@ -116,12 +119,16 @@ follow the shadcn skill's `design-system.md` (steps 3 to 5) to map it.
 3. Changing the base preset or style: the process above, step 2.
 4. A needed value has no token: add it to the core file, register it in
    `@theme inline`, use it everywhere.
-5. Refresh the design system page and its baselines (below).
+5. Run `npm run kit && npm run design`.
 
 ## Lint rules
 
-`scripts/verify` (`node scripts/verify.mjs check`, and CI) enforces the rules
-in `scripts/verify/ARCHITECTURE.json`; the `design-*` ids are the law.
+In an app made from the bare template, `npm run kit` (the kit's
+`boring-ui-blocks check --design`: literal colours, radii, fonts, `dark:`
+variants) and `npm run design` (raw controls where the kit has a component,
+line and file size limits) enforce what follows, and the verifier runs both.
+The rule names below are the law; an app that carries a `scripts/verify` with
+`design-*` ids reports them under these names.
 
 | Rule | Fix |
 |---|---|
@@ -141,16 +148,6 @@ in `scripts/verify/ARCHITECTURE.json`; the `design-*` ids are the law.
 
 Fix the code, not the rule: never add an `allow` entry to pass. Exempt today:
 `components/ui/` (CLI-owned) and the vendored `components/feedback/`.
-
-## The /design-system page
-
-`/design-system` renders every installed component and the chat components,
-in light and dark; a Playwright test holds screenshot baselines
-(`test/e2e/design-system.spec.mjs`). A new component goes on the page too
-(`showcase-coverage.mjs` of the shadcn skill lists the missing ones).
-When the theme changes **on purpose**, update the baselines in the same pull
-request (`--update-snapshots`), look at every changed image, and say in the
-PR what changed and why. A baseline diff you did not intend is a bug.
 
 ## Chats and feedback inherit the theme
 
@@ -203,9 +200,9 @@ shadows. No component changes:
    font tokens to the three families, loaded as fonts in the theme; the status colours retuned
    to the palette (their soft variants follow).
 4. Screens keep `bg-primary`, `rounded-lg`, `shadow-md`, `font-display`
-   (names as in the theme file). Run `verify check`: no rule fires.
-5. Update the `/design-system` baselines and review each image in light and
-   dark. Chats and feedback follow without any change.
+   (names as in the theme file). Run `npm run kit && npm run design`: nothing fires.
+5. Look at the result in light and dark. Chats and feedback follow without
+   any change.
 
 If the look needs something no token expresses, add the token (theme file and
 `DESIGN.md`) rather than a one-off style.

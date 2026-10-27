@@ -16,7 +16,7 @@ the repository itself, where it is reviewed like code.
    - the product owner's preferences (how they want the app to behave or read);
    - codebase knowledge gained (gotchas, why something is the way it is);
    - library or tool quirks (`vendor/boring/`, Flue, the model provider);
-   - friction in a skill (verify-app, new-agent) or in the verify CLI;
+   - friction in a skill (boring-app-template, build-app) or in the app's checks;
    - repeated manual steps.
 2. Skip anything trivial or already written down (grep AGENTS.md, docs/, the skills).
 3. Route each learning (below), smallest durable form first.
