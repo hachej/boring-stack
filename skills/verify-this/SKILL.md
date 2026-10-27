@@ -30,9 +30,9 @@ Do not use this for vague claims like "the code is cleaner". Ask for a measurabl
 ## Local surfaces in this app
 
 - Code behaviour: a focused unit test (`node --test test/unit/<file>`).
-- The page: `node scripts/verify.mjs` (the **verify-app** skill): `snapshot`, `screenshot`, `network-summary --since-mark`, `trace`.
+- The page: the app's journey (`npm run build && npm run journey`, see **boring-app-template**), or a browser driver (`control-ui`) for `snapshot`, `screenshot`, `network-summary`, `trace`.
 - The API and the wire: `verify api <path>` before and after.
-- What an agent writes: `node scripts/verify.mjs up --real` and drive it, or the evals of hachej/boring-stack for the expert's skill.
+- What an agent writes: run the app locally (`npm run dev`) and drive it, or the evals of hachej/boring-stack for the expert's skill.
 - Performance: `verify perf`, or timings from the same machine for baseline and treatment.
 
 ## Verdict Rules

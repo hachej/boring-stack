@@ -10,7 +10,7 @@ mean?"), not to design the product. Pick the cheapest form that settles it:
 | Where things sit on a screen, or how screens connect | A **tldraw canvas** (`.tldr`) |
 | What the expert will actually see and do | A **single-file HTML mockup** ([templates/mockup.html](templates/mockup.html)) |
 | Which of two or three ways works better | **Variants** behind a picker in one HTML file (Emil Kowalski's `prototype` skill, if installed, does this well) |
-| How the real app behaves today, or on a preview | **Screenshots or a journey** of the running app with the project's verify CLI: `node scripts/verify.mjs open <path>`, `viewport 375 812` for a phone, `screenshot mockups/<name>.png` |
+| How the real app behaves today, or on a preview | **Screenshots or a journey** of the running app with a browser driver (`control-ui`, or the app's `npm run journey`): open the path, a 375x812 viewport for a phone, save `mockups/<name>.png` |
 
 ## HTML mockups
 
