@@ -101,6 +101,18 @@
       ]
     },
     {
+      "repo": "benjitaylor/skills",
+      "path": "stageshow",
+      "commit": "802057409787133703c56001080169e347305572",
+      "license": "MIT (licenses/stageshow.LICENSE; stageshow/LICENSE); app icons in assets/app-icons.ts and brand marks in kit/brands/ keep their owners' terms (stageshow/NOTICE.md, kit/brands/SOURCES.md)",
+      "skills": [
+        "stageshow"
+      ],
+      "changes": [
+        "copied as is, with its kit, examples, teaching pairs, playground and scripts"
+      ]
+    },
+    {
       "repo": "hachej/boring-factory",
       "path": "stack",
       "license": "this repository",
