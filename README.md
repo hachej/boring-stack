@@ -39,6 +39,7 @@ hachej/boring-stack -y`); app repositories carry no skills.
 | `make-interfaces-feel-better`, `interaction-design`, `frontend-design` | From poteto/noodle (MIT; `frontend-design` Apache-2.0) |
 | `redesign-existing-projects` | Audit and upgrade existing UI, from Leonxlnx/taste-skill, MIT. Suggests custom fonts, noise/grain textures and stock photos suited to marketing pages; in apps, follow `boring-design-system` and shadcn tokens first. |
 | `minimalist-ui` | Editorial minimalist UI, from Leonxlnx/taste-skill, MIT. In apps, express the style through `boring-design-system` and shadcn tokens first. |
+| `stageshow` | Faux product UI for marketing and docs: stills and cursor demos in browser, app and phone frames, with a React kit and a filming check, from benjitaylor/skills, MIT. For illustrations of a product, not its real screens; its preview needs `npm install` in the skill's folder. |
 
 Sources and commits: `SOURCE.json`; attribution: `THIRD_PARTY.md`; each
 third-party skill carries its `LICENSE`.
