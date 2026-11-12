@@ -1,0 +1,7 @@
+{ "title": "Ajouter deux articles", "app": "Liste de courses (page locale)", "lang": "fr", "viewport": "phone",
+  "steps": [
+    { "do": "type", "label": "Article", "text": "du pain", "caption": "J'écris un premier article" },
+    { "do": "tap", "role": "button", "name": "Ajouter", "caption": "Je l'ajoute", "expect": "see:1 article" },
+    { "do": "type", "label": "Article", "text": "du lait", "caption": "Puis un deuxième" },
+    { "do": "tap", "role": "button", "name": "Ajouter", "caption": "Ajouter", "expect": "see:2 articles" }
+  ] }

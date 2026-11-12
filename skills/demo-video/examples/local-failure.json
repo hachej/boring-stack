@@ -1,0 +1,12 @@
+{
+  "title": "Un échec voulu : le texte attendu n'existe pas",
+  "app": "Liste de courses (page locale)",
+  "lang": "fr",
+  "viewport": "phone",
+  "steps": [
+    { "do": "type", "label": "Article", "text": "du pain", "caption": "J'écris un article" },
+    { "do": "tap", "role": "button", "name": "Ajouter", "caption": "Je l'ajoute", "expect": "see:1 article" },
+    { "do": "tap", "role": "button", "name": "Ajouter", "caption": "Je m'attends à voir 3 articles (c'est faux)", "expect": "see:3 articles", "timeout": 2000 },
+    { "do": "type", "label": "Article", "text": "du lait", "caption": "La vidéo continue après l'échec" }
+  ]
+}
