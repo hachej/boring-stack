@@ -23,12 +23,12 @@
     },
     {
       "name": "cursor-team-kit",
-      "description": "cursor/plugins/cursor-team-kit/skills at 2b8ae2ee306f (adopted 2026-11-12), by reference",
+      "description": "cursor/plugins/cursor-team-kit/skills at 679fdaf2c180 (adopted 2026-11-12), by reference",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/cursor/plugins.git",
         "path": "cursor-team-kit/skills",
-        "sha": "2b8ae2ee306f823d54879d3da7f8496b73c31d5d"
+        "sha": "679fdaf2c180df94d99b6e3dd862460082b73af6"
       },
       "skills": [
         "./control-ui",
@@ -39,12 +39,12 @@
     },
     {
       "name": "emil-design",
-      "description": "emilkowalski/skills/skills at e8a175de22ae (adopted 2026-10-02), by reference",
+      "description": "emilkowalski/skills/skills at f7ce8c02d6e3 (adopted 2026-11-12), by reference",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/emilkowalski/skills.git",
         "path": "skills",
-        "sha": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d"
+        "sha": "f7ce8c02d6e3c8f0d980a44c57bcc41a40254349"
       },
       "skills": [
         "./emil-design-eng",
@@ -58,12 +58,12 @@
     },
     {
       "name": "shadcn",
-      "description": "shadcn-ui/ui/skills/shadcn at 2d3f1cd436b1 (adopted 2026-10-12), by reference",
+      "description": "shadcn-ui/ui/skills/shadcn at 4233ed1caded (adopted 2026-11-12), by reference",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/shadcn-ui/ui.git",
         "path": "skills/shadcn",
-        "sha": "2d3f1cd436b18ea12f24130de4df781355925b08"
+        "sha": "4233ed1caded8c38f4bc14b14afe1f93ebcaf966"
       },
       "license": "MIT"
     },
