@@ -64,13 +64,14 @@ export function marketplace(prov = readProviders()) {
     ...(p.plugin?.skills ? { skills: p.plugin.skills.map((s) => `./${s}`) } : {}),
     license: p.license,
   });
+  // No version: an installed plugin then follows the commit, so a merged or gated change reaches workers (a version string pins it).
   const pluginJson = JSON.parse(readFileSync(join(PLUGIN, ".claude-plugin", "plugin.json"), "utf8"));
   return {
     name: "boring-stack",
     owner: { name: "hachej" },
     description: "The Boring Factory's worker stack: boring-stack on top of pstack, with the providers it routes to pinned by commit.",
     plugins: [
-      { name: "boring-stack", source: "./plugins/boring-stack", description: pluginJson.description, version: pluginJson.version },
+      { name: "boring-stack", source: "./plugins/boring-stack", description: pluginJson.description },
       ...prov.providers.map((p) => entry(p, p.adopted, `${p.repo}/${p.path} at ${p.adopted.slice(0, 12)} (adopted ${p.adopted_on}), by reference`)),
       ...prov.ours_elsewhere.map((p) => entry(p, null, `${p.repo}/${p.path}, ours, tracks ${p.ref}`)),
     ],

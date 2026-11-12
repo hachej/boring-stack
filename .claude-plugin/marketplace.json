@@ -8,8 +8,7 @@
     {
       "name": "boring-stack",
       "source": "./plugins/boring-stack",
-      "description": "The Boring Factory's worker stack on top of pstack: one front door (boring-mode), the task card, the UI kit, design, PM, proof and ship, with pstack, cursor-team-kit, Emil Kowalski's design skills, shadcn and the kit's skills pinned by commit.",
-      "version": "0.1.0"
+      "description": "The Boring Factory's worker stack on top of pstack: one front door (boring-mode), the task card, the UI kit, design, PM, proof and ship, with pstack, cursor-team-kit, Emil Kowalski's design skills, shadcn and the kit's skills pinned by commit."
     },
     {
       "name": "pstack",
