@@ -1,0 +1,45 @@
+{
+ "title": "Expert-comptable : retrouver une écriture",
+ "app": "Expert-comptable",
+ "lang": "fr",
+ "viewport": "desktop",
+ "steps": [
+  {
+   "do": "tap",
+   "text": "Recette (fictif)",
+   "caption": "J'ouvre le dossier « Recette (fictif) »",
+   "until": "see:Écritures"
+  },
+  {
+   "do": "tap",
+   "text": "Écritures",
+   "caption": "J'ouvre les Écritures",
+   "until": "see:26 lignes"
+  },
+  {
+   "do": "select",
+   "label": "Journal",
+   "option": "VE",
+   "caption": "Je filtre par journal : les ventes (VE)",
+   "until": "see:3 lignes"
+  },
+  {
+   "do": "tap",
+   "role": "button",
+   "name": "Ouvrir écriture F26-001 · 706000",
+   "caption": "Je clique une ligne",
+   "until": "see:Lignes de l"
+  },
+  {
+   "caption": "Le panneau de droite montre l'écriture entière",
+   "pause": 2200
+  },
+  {
+   "do": "press",
+   "key": "Escape",
+   "caption": "Échap ferme le panneau",
+   "pause": 1500,
+   "until": "nosee:Lignes de l"
+  }
+ ]
+}
