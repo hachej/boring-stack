@@ -1,7 +1,7 @@
 ---
 name: tester
 description: "The evaluator's second moment: after the ship, runs the script the ac-reviewer wrote before the build and walks the live app as the card's person. Built nothing. Use after every ship of something a person sees, before the person's own try."
-model: sonnet
+model: opus
 disallowedTools: Edit, NotebookEdit
 ---
 

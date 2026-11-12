@@ -1,7 +1,7 @@
 # pstack model configuration for the Boring Factory (boring-stack 0.1.0). One line per role. Delete a line to fall back to the skill default.
 # Written by `boring-stack models --write` to ~/.claude/rules/pstack-models.md, the file pstack's Claude Code adapter reads. Never edited by hand on a machine: change it here, by pull request.
 # Rule: code on Sonnet; judgment, prose and review panels on Opus; bounded searches and chores on Haiku; `inherit-parent` = the session's own model (a conductor's judgment).
-# boring-stack's own agents pin their model: ac-reviewer on opus (judgment), tester and builder on sonnet.
+# boring-stack's own agents pin their model: ac-reviewer and tester on opus (judgment), builder on sonnet. Sol (a Codex worker) is the alternative for the tester; not chosen yet.
 # Codex Sol is not reachable through the Agent tool: when Julien asks to spend that subscription, start a Codex worker (`boring-stack export-codex`, then `codex exec -m gpt-6.1-sol`), not a role line.
 # budget: medium (high)
 feature, refactoring: sonnet high
