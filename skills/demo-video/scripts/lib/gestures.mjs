@@ -25,10 +25,19 @@ export async function perform(c, step) {
   const dv = (fn, ...args) => (fast ? null : page.evaluate(([f, a]) => window.__dv?.[f]?.(...a), [fn, args]).catch(() => null));
   const targetBox = async (l) => {
     await l.waitFor({ state: 'visible', timeout: c.timeout });
-    await l.scrollIntoViewIfNeeded({ timeout: c.timeout });
+    await bringIntoView(l);
     const b = await l.boundingBox();
     if (!b) throw new Error('the target has no size on screen');
     return { l, x: b.x + b.width / 2, y: b.y + b.height / 2 };
+  };
+  // A target outside the screen is scrolled to the middle smoothly (and waited for), never jumped to.
+  const bringIntoView = async (l) => {
+    if (fast) return l.scrollIntoViewIfNeeded({ timeout: c.timeout });
+    const inView = () => l.evaluate((e) => { const r = e.getBoundingClientRect(); return r.top >= 0 && r.bottom <= innerHeight && r.left >= 0 && r.right <= innerWidth; }).catch(() => true);
+    if (await inView()) return;
+    await l.evaluate((e) => e.scrollIntoView({ block: 'center', inline: 'nearest', behavior: 'smooth' }));
+    let last = null;
+    for (let i = 0; i < 20; i++) { await sleep(100); const top = await l.evaluate((e) => Math.round(e.getBoundingClientRect().top)).catch(() => null); if (top === last) break; last = top; }
   };
   const glide = async (x, y) => {
     if (fast || c.touch) return;
@@ -60,7 +69,6 @@ export async function perform(c, step) {
       const l = locate(root, step, vp, { forType: true });
       if (l) { const { x, y } = await targetBox(l); await glide(x, y); await press(x, y); await (c.touch ? l.tap({ timeout: c.timeout }) : l.click({ timeout: c.timeout })); }
       const text = pick(step.text, vp);
-      await dv('avoid');
       if (fast) await page.keyboard.insertText(text); else await page.keyboard.type(text, { delay: text.length > 60 ? 35 : 60 });
       return;
     }

@@ -13,6 +13,9 @@ import { overlayScript } from './lib/overlay.mjs';
 import { perform, sleep } from './lib/gestures.mjs';
 import { verdictOf } from './lib/verdict.mjs';
 import { renderStrip } from './lib/strip.mjs';
+import { CARD_SECONDS, composeVideo, frameAt, toWebm } from './lib/compose.mjs';
+import { PublishError, publishFolder } from './lib/publish.mjs';
+import { report, unpublished } from './publish.mjs';
 
 const HELP = `demo-video: record a short video of a product doing something (and prove it), or check it with --fast.
 
@@ -32,17 +35,18 @@ const HELP = `demo-video: record a short video of a product doing something (and
   --mask CSS,CSS      extra selectors to blur (default: input[type=password], [data-private])
   --title T --app NAME --version V --lang fr|en   title card text (version: a commit or release)
   --ready CSS         wait for this selector after opening
-  --device-frame      draw a phone bezel (off by default)
   --strict-console    a console error fails the step
-  --no-cards          no title or end card
+  --publish           then upload the folder to the private archive bucket and print a 7-day link (needs Vault + wrangler; the recording stays local if not)
+  --task APP D-n      with --publish: comment on that task and attach strip.png and steps.json (a refused comment is written to task-comment.txt)
 Exit: 0 pass, 1 a step failed, 2 usage, 3 refused (secret-looking value), 4 environment.`;
 
 function parseArgs(argv) {
-  const o = {}, flags = new Set(['fast', 'device-frame', 'strict-console', 'no-cards', 'help']);
+  const o = {}, flags = new Set(['fast', 'strict-console', 'publish', 'help']);
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (!a.startsWith('--')) throw new UsageError(`unexpected argument "${a}"`);
     const k = a.slice(2);
+    if (k === 'task') { if (!/^D-\d+$/i.test(argv[i + 2] ?? '')) throw new UsageError('--task needs an app and a task number: --task expert-comptable D-2235'); o.task = { app: argv[i + 1], number: argv[i + 2].toUpperCase() }; o.publish = true; i += 2; continue; }
     if (flags.has(k)) o[k] = true; else { if (argv[i + 1] == null) throw new UsageError(`--${k} needs a value`); o[k] = argv[++i]; }
   }
   return o;
@@ -135,9 +139,9 @@ export async function main(argv) {
     context = await browser.newContext({
       viewport: { width: vp.width, height: vp.height }, deviceScaleFactor: k, isMobile: phone, hasTouch: phone,
       locale: lang === 'fr' ? 'fr-FR' : 'en-US',
-      ...(fast ? {} : { recordVideo: { dir: tmp, size: { width: vp.width * k, height: vp.height * k } } }),
+      ...(fast ? {} : { recordVideo: { dir: tmp, size: { width: vp.width, height: vp.height } } }),
     });
-    await context.addInitScript({ content: overlayScript({ mask, phone, deviceFrame: o['device-frame'], ui: !fast }) });
+    await context.addInitScript({ content: overlayScript({ mask, ui: !fast }) });
     if (sessionValue) await context.addCookies([{ name: o['cookie-name'] ?? '__Host-app_session', value: sessionValue, url: origin }]);
     const tVideo = Date.now();
     const page = await context.newPage();
@@ -178,24 +182,18 @@ export async function main(argv) {
     const host = (() => { try { const u = new URL(url); return u.protocol === 'file:' ? 'local page' : u.host; } catch { return ''; } })();
     const title = o.title ?? meta.title ?? host;
     const appLine = [o.app ?? meta.app ?? host, o.version ?? meta.version].filter(Boolean).join(' · ');
-    const dv = (fn, ...a) => (fast ? null : page.evaluate(([f, x]) => window.__dv?.[f]?.(...x), [fn, a]).catch(() => null));
-    let trimAt = 0;
-    if (!fast && !o['no-cards']) {
-      await dv('card', { title, sub: appLine, date, tone: '' }, true);
-      trimAt = Date.now() - tVideo + 150;
-      await sleep(Math.min(3200, 1700 + title.length * 25));
-      await dv('card', null);
-      await sleep(350);
-    } else if (!fast) trimAt = Date.now() - tVideo + 50;
+    // the capture is the page alone: captions and cards are composed around it afterwards (lib/compose.mjs)
+    const trimAt = fast ? 0 : Math.max(0, Date.now() - tVideo - 100);
     // --- the steps ---
-    const results = [], shots = [], ends = [];
+    const results = [], shots = [], ends = [], starts = [];
     for (let i = 0; i < steps.length; i++) {
       const step = steps[i];
       current = i;
       ctx.timeout = step.timeout ?? 5000;
       const caption = step.caption;
       const shownAt = Date.now();
-      if (!fast) { await dv('caption', caption); await sleep(step.do === 'caption' ? 0 : 450); }
+      starts.push(shownAt - tVideo);
+      if (!fast) await sleep(step.do === 'caption' ? 0 : 450);
       const t0 = Date.now();
       let ok = true, reason = null, expectOk = null;
       let retried = false;
@@ -211,12 +209,9 @@ export async function main(argv) {
       await scan();
       if (!fast) {
         const read = Math.max(1400, 55 * caption.length) - (Date.now() - shownAt);
-        if (!ok) await dv('caption', caption, 'ko');
         await sleep(Math.max(step.pause ?? 900, read, ok ? 0 : 1500));
       }
-      await dv('hideCaption', true);
-      const png = await page.screenshot({ type: 'png' }).catch(() => null);
-      await dv('hideCaption', false);
+      const png = fast ? await page.screenshot({ type: 'png' }).catch(() => null) : null; // never while recording: a screenshot disturbs the capture
       shots.push({ n: i + 1, png, caption, ok, reason, ms: took });
       ends.push(Date.now() - tVideo);
       results.push({ n: i + 1, do: describe(step, vp), caption, ms: took, ok, retried: retried || undefined, reason, expect: step.expect ?? null, check: step.until ? { condition: step.until, ok: expectOk } : null, consoleErrors: errors.get(i) ?? [] });
@@ -224,7 +219,8 @@ export async function main(argv) {
     // --- the verdict ---
     const strictConsole = !!o['strict-console'];
     let verdict = verdictOf(results, { lang, durationMs: fast ? results.reduce((n, r) => n + r.ms, 0) : Date.now() - tVideo - trimAt, strictConsole });
-    if (!fast && !o['no-cards']) { await dv('card', { title: verdict.card.text, sub: verdict.card.sub, date, tone: verdict.card.tone }); await sleep(2600); }
+    const stepsEnd = Date.now() - tVideo + (fast ? 0 : 400);
+    if (!fast) await sleep(400);
     let webmPath = null;
     if (!fast) { const v = page.video(); await context.close(); context = null; webmPath = await v.path(); }
     // --- the files ---
@@ -232,18 +228,22 @@ export async function main(argv) {
     const files = {}, warnings = [];
     let seconds = NaN;
     if (webmPath) {
-      const trim = (trimAt / 1000).toFixed(2);
-      if (hasFfmpeg()) {
-        const mp4 = join(tmp, 'demo.mp4'), webm = join(tmp, 'demo.webm');
-        const a = run('ffmpeg', ['-y', '-v', 'error', '-ss', trim, '-i', webmPath, '-c:v', 'libx264', '-preset', 'veryfast', '-crf', '24', '-pix_fmt', 'yuv420p', '-r', '25', '-movflags', '+faststart', '-an', mp4]);
-        const b = run('ffmpeg', ['-y', '-v', 'error', '-ss', trim, '-i', webmPath, '-c:v', 'libvpx', '-deadline', 'realtime', '-threads', '4', '-cpu-used', '8', '-b:v', '1200k', '-an', webm]);
-        if (a.status === 0) { renameSync(mp4, join(out, 'demo.mp4')); files.mp4 = 'demo.mp4'; } else warnings.push('ffmpeg could not make the MP4 (no libx264?): only the WebM was written');
-        if (b.status === 0) { renameSync(webm, join(out, 'demo.webm')); files.webm = 'demo.webm'; }
-        const at = Math.max(0, (ends[0] - 150 - trimAt) / 1000).toFixed(2);
-        const p = run('ffmpeg', ['-y', '-v', 'error', '-ss', at, '-i', join(out, files.mp4 ?? files.webm ?? 'none'), '-frames:v', '1', join(out, 'poster.png')]);
-        if (p.status === 0) files.poster = 'poster.png';
+      if (!hasFfmpeg()) { renameSync(webmPath, join(out, 'demo.webm')); files.webm = 'demo.webm'; warnings.push('ffmpeg is not installed: the raw WebM (page only, no captions) is the only video'); }
+      else {
+        const t = (ms) => ms / 1000;
+        const steps2 = results.map((r, i) => ({ text: r.caption, ok: r.ok, a: t(starts[i] - trimAt), b: t((starts[i + 1] ?? stepsEnd) - trimAt) }));
+        shots.forEach((s, i) => { const f = join(tmp, `shot-${i}.png`); if (frameAt(webmPath, t(ends[i] - 250), f)) s.png = readFileSync(f); });
+        const cardDate = new Date().toISOString().slice(0, 10);
+        const mp4 = join(tmp, 'demo.mp4');
+        const made = await composeVideo({ browser, tmp, raw: webmPath, trimS: t(trimAt), mainS: t(stepsEnd - trimAt), vp, steps: steps2, out: mp4,
+          title: { title, sub: appLine, date: cardDate, tone: '' }, end: { title: verdict.card.text, sub: verdict.card.sub, date: cardDate, tone: verdict.card.tone } });
+        if (made.ok) {
+          renameSync(mp4, join(out, 'demo.mp4')); files.mp4 = 'demo.mp4';
+          if (toWebm(join(out, 'demo.mp4'), join(tmp, 'demo.webm'))) { renameSync(join(tmp, 'demo.webm'), join(out, 'demo.webm')); files.webm = 'demo.webm'; }
+          const p = spawnSync('ffmpeg', ['-y', '-v', 'error', '-ss', (CARD_SECONDS - 0.3 + steps2[0].b - 0.3).toFixed(2), '-i', join(out, 'demo.mp4'), '-frames:v', '1', join(out, 'poster.png')]);
+          if (p.status === 0) files.poster = 'poster.png';
+        } else { renameSync(webmPath, join(out, 'demo.webm')); files.webm = 'demo.webm'; warnings.push(`ffmpeg could not compose the video (${made.error}): the raw WebM (page only, no captions) was kept`); }
       }
-      if (!files.webm) { renameSync(webmPath, join(out, 'demo.webm')); files.webm = 'demo.webm'; warnings.push('ffmpeg is not installed: the untrimmed WebM is the only video'); }
       const probe = hasFfmpeg() ? run('ffprobe', ['-v', 'error', '-show_entries', 'format=duration', '-of', 'csv=p=0', join(out, files.mp4 ?? files.webm)]) : null;
       seconds = probe ? parseFloat(probe.stdout) : NaN;
       if (seconds > 60) warnings.push(`the video lasts ${seconds.toFixed(0)} s: over 60 s, split it or cut steps (10 to 40 s is best)`);
@@ -267,6 +267,10 @@ export async function main(argv) {
     console.log(verdict.line);
     console.log(`written to ${out}: ${Object.values(files).concat(['steps.json', 'verdict.txt']).join(' ')}`);
     await cleanup();
+    if (o.publish && !fast) {
+      try { report(await publishFolder(out, { app: o.task?.app, task: o.task })); }
+      catch (e) { if (!(e instanceof PublishError)) throw e; console.error(unpublished(out, e)); }
+    }
     return verdict.ok ? 0 : 1;
   } catch (e) {
     await cleanup();

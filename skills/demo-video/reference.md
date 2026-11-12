@@ -33,7 +33,8 @@ Joined with ` & `: `see:<text>` and `nosee:<text>` (the page shows it, any case,
 
 ## Result files
 
-- `demo.mp4`, `demo.webm`: title card, steps with burned-in captions, end card. Phone videos are 780x1688 (2x), desktop 1440x900.
+- `demo.mp4`, `demo.webm`: a title card, the steps, an end card (they dissolve into the page), at a constant 30 fps. The app is recorded untouched; the caption and the counter (`3 / 7`) are in a band **below** the app's screen, red when a step fails; only the pointer or touch dot is drawn over the app. Phone: a portrait 960x2048 frame (the 390x844 screen shown at 2x, with a thin outline). Desktop: 1440x900 screen in a 1520x1140 frame (band 200 px).
+- `evidence.json`, `task-comment.txt`: written by `--publish` (keys only, never a link).
 - `strip.png`: one frame per step, caption and seconds under it, failed steps with a red frame.
 - `steps.json` (`schema: "demo-video/1"`): `verdict {ok, failedStep, line}`, `steps[] {n, do, caption, ms, ok, reason, check {condition, ok}, expect, consoleErrors, retried}`, `durationMs`, `warnings`, `files`. The address is kept without query string or path to a local file; no session value.
 

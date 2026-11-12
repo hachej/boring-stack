@@ -1,0 +1,16 @@
+{
+ "title": "Expert-comptable : le bilan est un document de référence",
+ "app": "Expert-comptable",
+ "lang": "fr",
+ "viewport": "phone",
+ "steps": [
+  { "caption": "Utilisateur fictif, dossier « Recette (fictif) »", "until": "see:Recette (fictif)", "pause": 1200 },
+  { "do": "tap", "role": "button", "name": "Menu du dossier", "caption": "J'ouvre le menu", "until": "see:Dossiers clients" },
+  { "do": "tap", "text": "Recette (fictif)", "caption": "J'ouvre le dossier", "until": "see:Filtres", "timeout": 15000 },
+  { "do": "tap", "role": "button", "name": "Menu du dossier", "caption": "Je rouvre le menu", "until": "see:Outils du dossier" },
+  { "do": "tap", "text": "Outils du dossier", "caption": "Outils du dossier", "until": "see:Activité" },
+  { "do": "tap", "text": "Activité", "caption": "J'ouvre Activité : les trois fichiers et leur état", "until": "see:document de référence", "pause": 3200 },
+  { "do": "tap", "role": "button", "name": "Voir la lecture de importer-bilan", "caption": "Je touche le bilan", "until": "see:Lu : document de référence" },
+  { "caption": "Document de référence : aucune écriture créée, rien importé ni envoyé", "until": "see:aucune écriture ni aucun compte créé", "pause": 3600 }
+ ]
+}

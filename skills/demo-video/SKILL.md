@@ -12,12 +12,14 @@ Use it when you **shipped or built something a person can see and need to show o
 ## The one command
 
 ```
-node <skill>/scripts/record.mjs --steps flow.json --out /home/ubuntu/fleet/evidence/<app>/<task-or-date>/
+node <skill>/scripts/record.mjs --steps flow.json --out /home/ubuntu/fleet/evidence/<app>/<D-n>/ --publish --task <app> D-n
 ```
+
+Records, uploads to the private bucket and puts the verdict and a 7-day link on the task (see "Where the result goes"). Without `--publish` the result stays in the folder; without `--task` it is only uploaded and the link printed.
 
 `<skill>` is the folder of this skill (`~/.agents/skills/demo-video`). Needs Playwright with Chromium and `ffmpeg` (both on the dev VM; found by themselves). Add `--fast` to run only the checks (no pauses, no video; writes `steps.json`, `strip.png`, `verdict.txt`) as a gate. Exit code: 0 pass, 1 a step failed, 2 bad steps file, 3 refused (a secret-looking value), 4 environment.
 
-It writes `demo.mp4` (H.264, plays on a phone, in GitHub and Slack), `demo.webm`, `poster.png`, `strip.png` (one frame per step, caption under it), `steps.json`, `verdict.txt`, and prints one line: `PASS 7/7 steps, 28.0s, 0 console errors` or `FAIL step 3/7 "caption": expected see:Midi (not true after 5s)`.
+It writes `demo.mp4` (H.264, constant 30 fps, plays on a phone, in GitHub and Slack; the app untouched, the caption and `3 / 7` in a band below it; a portrait 960x2048 frame for a phone, 1520x1140 for a desktop), `demo.webm`, `poster.png`, `strip.png` (one frame per step, caption under it), `steps.json`, `verdict.txt`, and prints one line: `PASS 7/7 steps, 28.0s, 0 console errors` or `FAIL step 3/7 "caption": expected see:Midi (not true after 5s)`.
 
 ## The steps file (two minutes)
 
@@ -49,7 +51,7 @@ Write checks that prove the claim (`until`), not just that a button was pressed.
 
 ## Options worth knowing
 
-`--url` (page, file or path; default: the file's `url`, then `$LIVE_APP_URL`), `--viewport phone|desktop|WxH[:touch]`, `--child-frame <css>` (app inside an iframe), `--version <commit>` (title card: pass `"$(git rev-parse --short HEAD)"` of the thing shown), `--mask <css,css>`, `--serve "<cmd>"` (start a local server, stopped at the end), `--ready <css>`, `--strict-console` (a console error fails the step), `--device-frame`. `--help` lists all.
+`--url` (page, file or path; default: the file's `url`, then `$LIVE_APP_URL`), `--viewport phone|desktop|WxH[:touch]`, `--child-frame <css>` (app inside an iframe), `--version <commit>` (title card: pass `"$(git rev-parse --short HEAD)"` of the thing shown), `--mask <css,css>`, `--serve "<cmd>"` (start a local server, stopped at the end), `--ready <css>`, `--strict-console` (a console error fails the step), `--publish`, `--task <app> D-n`. `--help` lists all.
 
 ## The two live apps (signed in, fictional user)
 
@@ -71,7 +73,13 @@ The kit harness (hachej/boring-ui, `ux/scenarios/*.json`) is played as it is: `-
 
 Keep it outside git: `/home/ubuntu/fleet/evidence/<app>/<task-or-date>/` (a few MB at most; delete scratch takes). Then:
 
-- **A task** (`boring task attach <app> D-n <file>`): the server takes only `.md .json .txt .html` (200 KB) and `.pdf .png .jpg .webp .xlsx .csv .docx` (10 MB each). **A video (`.mp4`, `.webm`) is refused** (checked in the Factory's task schema, `tasks/src/domain.mjs`). Attach `strip.png` and `steps.json` (both small), and say where the video is. Finished evidence: archive to R2 as `docs/archive/ARCHIVE.md` describes.
+- **A task: publish it.** Add `--publish` (with `--task <app> D-n` to post it on a task) to the recorder, or run `node <skill>/scripts/publish.mjs <folder> --task <app> D-n` for a recording already made. Add `--no-post` to file the objects under the task's key without commenting.
+  - It uploads the folder to the private archive bucket `boring-backups` (the one `docs/archive/ARCHIVE.md` describes, the same Vault credential, no new token) under `evidence/<app>/<D-n or date>/<title slug>/` (`demo.mp4` `video/mp4`, `demo.webm`, `poster.png`, `strip.png`, `steps.json`, and `evidence.json`, all `Content-Disposition: inline`, so a phone plays and seeks), and prints a **watch link valid 7 days**. A re-run of the same title overwrites (the latest take wins).
+  - **Who can open the link:** anyone who holds it, on a phone, with no sign-in, until it expires. The bucket is not public: the bare object address answers 400. Use only fictional users and invented data (the recorder enforces it), and do not paste the link outside the task. For a fresh link: `node <skill>/scripts/link.mjs <evidence/.../demo.mp4 | the prefix ending in / | the folder> [strip|webm|poster|steps]`.
+  - **On the task:** one comment (verdict, title, steps, seconds, the watch link, the strip link, the key and how to mint a fresh link), plus `strip.png` and `steps.json` attached. The task store takes no video (`.mp4`/`.webm` are refused as attachments), so the video lives in the bucket. A **shipped or abandoned task is immutable**: the comment and the attachments are refused. The run does not fail: the same text, without any signature, is written to `task-comment.txt` beside the recording, and the link is printed once to you.
+  - `evidence.json` (`kind: "demo-video"`, title, verdict, durationMs, viewport, app, commit, createdAt, `objects` = the five object keys) holds **keys only, never a link or a secret**. A task card resolves the keys to links with a route that checks rights (not built yet) and plays them with the UI kit's file viewer.
+  - If Vault, Cloudflare or `wrangler` is not reachable, the recording is kept and one sentence says what to run later. A signed link is written to no file and no log; it is in the task comment and in what the command prints.
+  - Retention: the bucket has no expiry rule for `evidence/`. Delete a scratch take with `wrangler r2 object delete boring-backups/<key> --remote` (token as in ARCHIVE.md); finished evidence stays like the other archives.
 - **A pull request or a report**: write the verdict line, the numbers from `steps.json` (steps passed, seconds, console errors), and the evidence folder path. Never commit the video. GitHub inlines a video only when someone drags it into the web editor: leave that to a person.
 
 Reading `steps.json`: `verdict.ok` and `verdict.line` first; then each `steps[]`: `ok`, `reason` (why it failed), `ms` (time of the gesture and its check), `check.ok` (the `until`), `consoleErrors`, `retried` (the gesture was tried twice). `warnings` says if the video is over 40 s (over 60 s: split it).
@@ -95,4 +103,4 @@ Reading `steps.json`: `verdict.ok` and `verdict.line` first; then each `steps[]`
 | Page redirects to sign-in | the session expired: run through `live-session.mjs` again |
 | Typing hidden behind the caption | it moves to the top by itself when the field is at the bottom |
 
-Tests (offline): `node --test skills/demo-video/test/` in the library.
+Tests (offline; the recording ones need Chromium and ffmpeg): `node --test skills/demo-video/test/*.test.mjs` in the library.

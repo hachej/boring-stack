@@ -26,28 +26,40 @@
    "do": "tap",
    "role": "button",
    "name": "Modifier Riz",
-   "caption": "Je touche la ligne Riz",
+   "caption": "Je touche la ligne Riz pour ajuster la portion",
    "until": "see:pour 100 g"
   },
   {
    "do": "tap",
    "role": "button",
    "name": "Moins 10 g",
-   "caption": "Je réduis la portion",
-   "until": "nosee:387 / 1 650"
-  },
-  {
-   "do": "tap",
-   "role": "button",
-   "name": "Moins 10 g",
-   "caption": "Encore un cran"
+   "caption": "Je réduis la portion de 10 g",
+   "pause": 1400
   },
   {
    "do": "tap",
    "role": "button",
    "name": "Fermer",
    "caption": "Je ferme : le total a baissé",
-   "pause": 1800
+   "pause": 1600
+  },
+  {
+   "do": "type",
+   "testid": "composer-input",
+   "text": "annule",
+   "caption": "Je me ravise : j'écris « annule »"
+  },
+  {
+   "do": "tap",
+   "testid": "composer-submit",
+   "caption": "J'envoie à Max",
+   "until": "see:revenue comme avant",
+   "timeout": 90000
+  },
+  {
+   "caption": "Max annule : la portion est revenue à 150 g",
+   "until": "see:387 / 1 650",
+   "pause": 2400
   }
  ]
 }
