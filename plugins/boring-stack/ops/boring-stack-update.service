@@ -1,0 +1,10 @@
+# manual: plugins/boring-stack/README.md ("Daily updates"). Inert until installed with `systemctl --user link`.
+[Unit]
+Description=boring-stack: adopt upstream skills that pass the safety scan and the gate
+
+[Service]
+Type=oneshot
+ExecStart=%h/fleet/boring-stack-upstream/plugins/boring-stack/ops/daily-update.sh
+Nice=10
+TimeoutStartSec=3600
+MemoryMax=4G

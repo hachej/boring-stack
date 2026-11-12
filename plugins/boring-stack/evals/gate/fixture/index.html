@@ -1,0 +1,10 @@
+<!doctype html>
+<html lang="fr"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ma journée</title>
+<body><main id="day"></main>
+<script type="module">
+import { addLine, emptyDay, render } from "./src/day.mjs";
+const day = emptyDay();
+const params = new URLSearchParams(location.search);
+for (const [food, kcal] of params) addLine(day, food, Number(kcal));
+document.getElementById("day").innerHTML = render(day);
+</script></body></html>

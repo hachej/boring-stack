@@ -1,0 +1,70 @@
+#!/usr/bin/env node
+// boring-stack: where a skill lives, the Codex export, the daily provider update and its gate.
+import { copyFileSync, existsSync, readFileSync, readdirSync, writeFileSync, mkdirSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
+import { PLUGIN, files, latest, readProviders, tree, writeMarketplace } from "../lib/providers.mjs";
+import { skillPath } from "../lib/where.mjs";
+import { exportCodex } from "../lib/export-codex.mjs";
+import { scanText } from "../lib/scan.mjs";
+import { run } from "../lib/update.mjs";
+import { card } from "../lib/gate.mjs";
+import { pluginDir } from "../lib/update.mjs";
+import { report } from "../lib/report.mjs";
+
+const [cmd, ...args] = process.argv.slice(2);
+const flag = (f) => args.includes(f);
+const opt = (f) => { const i = args.indexOf(f); return i >= 0 ? args[i + 1] : undefined; };
+const HELP = `boring-stack <command>
+  where <skill>              path of a skill's SKILL.md (ours, pstack, cursor-team-kit, Emil's, the kit's)
+  export-codex <dir>|--user  link the skills into <dir>/.agents/skills and write the routing block into AGENTS.md
+  update [--apply] [--provider <name>] [--no-live] [--report <file>]
+                             fetch each provider's latest, diff, scan, gate; --apply adopts what passed
+  scan --baseline [dirs...]  scan the adopted provider trees (and any skill folders given) in full
+  gate                       run the fixed card once on the adopted versions and print the facts
+  marketplace                regenerate .claude-plugin/marketplace.json from providers.json
+  models [--write]           show (or write) the pstack role rule at ~/.claude/rules/pstack-models.md`;
+
+if (cmd === "where") {
+  const p = skillPath(args[0] || "");
+  if (!p) { console.error(`not found: ${args[0]}`); process.exit(1); }
+  console.log(p);
+} else if (cmd === "export-codex") {
+  const r = exportCodex(args[0] && args[0] !== "--user" ? args[0] : process.cwd(), { user: flag("--user") });
+  console.log(`linked ${r.linked.length} skills into ${r.skillsDir}; routing block in ${r.agentsMd}`);
+  for (const m of r.missing) console.log(`  missing: ${m}`);
+} else if (cmd === "update") {
+  const out = run({ only: opt("--provider"), apply: flag("--apply"), live: !flag("--no-live") });
+  const md = report(out, { apply: flag("--apply") });
+  if (opt("--report")) writeFileSync(opt("--report"), md);
+  console.log(md);
+  process.exitCode = out.results.some((r) => /flagged|failed|broken|error/.test(r.status)) ? 1 : 0;
+} else if (cmd === "scan") {
+  const prov = readProviders();
+  const lines = [];
+  const scanDir = (label, root, pick = () => true) => {
+    for (const f of files(root).filter(pick).filter((f) => /\.(md|mdc|txt|json|ya?ml|sh|mjs|js|ts|py)$/.test(f) || !f.includes("."))) {
+      let t; try { t = readFileSync(join(root, f), "utf8"); } catch { continue; }
+      for (const x of scanText(f, t)) lines.push(`${label}\t${x.rule}\t${f}${x.line ? ":" + x.line : ""}\t${(x.text || x.why).slice(0, 140)}`);
+    }
+  };
+  for (const p of prov.providers) scanDir(`${p.name}@${p.adopted.slice(0, 8)}`, tree(p, p.adopted), (f) => !p.plugin?.skills || p.plugin.skills.some((s) => f.startsWith(s + "/")));
+  for (const d of args.filter((a) => !a.startsWith("--"))) for (const e of readdirSync(d, { withFileTypes: true })) if (e.isDirectory()) scanDir(`${d}/${e.name}`, join(d, e.name));
+  console.log(lines.join("\n") || "no flags");
+} else if (cmd === "gate") {
+  const prov = readProviders();
+  const dirs = [...prov.providers, ...prov.ours_elsewhere].map((p) => pluginDir(p, tree(p, p.adopted || latest(p))));
+  const r = card(dirs, { model: opt("--model") || "sonnet" });
+  console.log(JSON.stringify(r, null, 2));
+  process.exitCode = r.pass ? 0 : 1;
+} else if (cmd === "marketplace") {
+  writeMarketplace(readProviders());
+  console.log("wrote .claude-plugin/marketplace.json");
+} else if (cmd === "models") {
+  const src = join(PLUGIN, "rules", "pstack-models.md"), dst = join(homedir(), ".claude", "rules", "pstack-models.md");
+  if (!flag("--write")) { console.log(readFileSync(src, "utf8")); console.log(`(not written; existing file: ${existsSync(dst) ? dst : "none"}. Add --write to install it.)`); }
+  else { mkdirSync(join(homedir(), ".claude", "rules"), { recursive: true }); copyFileSync(src, dst); console.log(`wrote ${dst}`); }
+} else {
+  console.log(HELP);
+  process.exitCode = cmd ? 64 : 0;
+}

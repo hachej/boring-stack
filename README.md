@@ -15,6 +15,10 @@ skill under `skills/<name>/`.
 > `app-layout-and-agent` in [hachej/boring-ui](https://github.com/hachej/boring-ui/tree/main/skills).
 > The stale `new-agent`, `verify-app` and `boring-new-app` copies are removed from here.
 
+## The plugin (workers)
+
+[`plugins/boring-stack/`](plugins/boring-stack/README.md) is the one plugin every Factory worker loads: `boring-mode` as the front door, on top of pstack, with its providers pinned by commit in this repository's marketplace (`claude plugin marketplace add hachej/boring-stack`, then `claude plugin install boring-stack@boring-stack`). The skill folders below stay until the switch-over removes them ([INVENTORY.md](plugins/boring-stack/INVENTORY.md)).
+
 ## Who installs what
 
 | Who | Command | What they get |

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "boring-stack",
+  "version": "0.1.0",
+  "description": "The Boring Factory's worker stack on top of pstack: one front door (boring-mode), the task card, the UI kit, design, PM, proof and ship, with pstack, cursor-team-kit, Emil Kowalski's design skills, shadcn and the kit's skills pinned by commit.",
+  "author": { "name": "Julien Hurault" },
+  "homepage": "https://github.com/hachej/boring-stack/tree/main/plugins/boring-stack",
+  "repository": "https://github.com/hachej/boring-stack",
+  "license": "MIT",
+  "keywords": ["boring-factory", "pstack", "poteto-mode", "workers", "design", "task-card"],
+  "dependencies": ["pstack", "cursor-team-kit", "emil-design", "shadcn", "boring-ui-kit", "boring-library"]
+}
