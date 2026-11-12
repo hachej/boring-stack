@@ -1,5 +1,7 @@
 # boring-stack repository
 
+Start every task with `/boring-stack:boring-mode <app> <task>` in Claude Code; a conductor's sub-agent is `subagent_type: boring-stack:builder` with the task as its brief. It reads the task and tells you which other skills and playbooks to use and what proof the task must end with. Codex and other agents: read `boring-mode/SKILL.md` from your skills folder (`~/.agents/skills`) first.
+
 All the skills of the Boring platform, one folder each under `skills/<name>/` (the skills CLI layout).
 
 - A skill folder is self-contained: its files and its LICENSE travel with it. A skill may point to a sibling skill (the stack installs them together), never outside `skills/`.
