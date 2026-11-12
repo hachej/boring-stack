@@ -35,4 +35,4 @@ Follow poteto-mode's **Opening a PR** (worktree, small ordered commits, `deslop`
 
 ## After live
 
-Hand the walkthrough to `boring-stack:tester` (`prove-it` section 4). Report per `boring-mode` section 5.
+Hand the evaluator's script to `boring-stack:tester` (`prove-it` section 4). You never mark a line as working for the person: "mark the request shipped" (`boring ship --task`) records the ship, not the person's verdict. Report per `boring-mode` section 5.

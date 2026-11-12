@@ -28,13 +28,17 @@ Julien's "design skill" and "design system skill" are one skill here (`design`) 
 
 Precedence: the person's words, then the app's design system (tokens, kit parts, the design check), then craft. Routed: `emil-design-eng` (polish, default), `animate` (build motion), `review-animations` (motion diff gate), `improve-animations` (app-wide motion audit), `mobile-native` (phone), `break-ui` (worst-case data), `shadcn` (kit registry only). On conflict tokens win (`make-interfaces-feel-better`'s "shadows over borders" against flat kit cards); `review-animations` gates a motion diff, `emil-design-eng` reviews the screen. Left out: `frontend-design`, `design-impeccable`, `minimalist-ui`, `redesign-existing-projects` (impose an aesthetic, fonts and palettes the design check refuses), `make-interfaces-feel-better`, `interaction-design` (overlap Emil), `ui-polish` (paid licence; its 96 zero-width characters per file decode to the buyer handle `fab0d3daacee`, a watermark, no instruction).
 
-## E. Agents
+## E. Agents and the evaluator
 
-`builder` (Sonnet) preloads `boring-mode` and reads `poteto-mode` before work; it wraps rather than replaces `pstack:poteto-agent`, which stays the delegate inside a playbook, so a pstack upgrade changes the text both read and the gate checks the path still exists. `tester` (Sonnet, no edit tools) walks the live app and scores steps without a hitch. `ac-reviewer` (Sonnet, no edit tools) answers `ready` or exact edits; Fable only for a kill round.
+`builder` (Sonnet) preloads `boring-mode` and reads `poteto-mode` before work; it wraps rather than replaces `pstack:poteto-agent`, which stays the delegate inside a playbook, so a pstack upgrade changes the text both read and the gate checks the path still exists.
+
+The evaluator is two agents with two fixed moments (decided 12 November with Julien). **Before the build**, `ac-reviewer` (Opus: it judges whether lines are testable and what they miss) reads the card cold, answers `ready` or exact edits, and for a feature writes the script to `~/fleet/evaluator/<product>/<card>/script.md`, extending the app's scripted day or kit scenario when one exists. No builder starts on a feature until it exists; the builder knows the folder exists and never reads it. **After the ship**, `tester` (Sonnet: it uses an app and reports facts) runs that script on the live app, wanders, and writes `verdict.json`. Neither sets the person's verdict: whether a line works for them is theirs, never written by an agent or from an app's own origin (the rights review of boring-factory #2068); the tester's result sits beside it as « Test de l'agent ». Cost of one Opus review, measured on the gate's small fix card: $0.37 and 41 s; a real feature card with docs and a script will cost several times that (estimate, not measured).
+
+**Words.** What a person reads comes from `services/tasks/ui/wording.ts` (boring-factory, contract cards G-a and G-b): « À essayer / Ça marche / Ça ne marche pas / Pas pu essayer », four stage phrases, « n sur m réussis ». Where the 12 November handoff or Jérôme's method say recette, KO, bloqué or the six step names, the plugin follows the new words.
 
 ## F. Models
 
-`rules/pstack-models.md`: code Sonnet, judgment and review panels Opus, searches Haiku, conductor judgment `inherit-parent`, Fable in the cross-judge pool; Codex Sol is a Codex worker, not a role line. Applied with `boring-stack models --write` to `~/.claude/rules/pstack-models.md` (pstack's Claude Code adapter reads it). Not applied today.
+`rules/pstack-models.md`: code Sonnet, judgment and review panels Opus (the `ac-reviewer` agent pins Opus itself), searches Haiku, conductor judgment `inherit-parent`, Fable in the cross-judge pool; Codex Sol is a Codex worker, not a role line. Applied with `boring-stack models --write` to `~/.claude/rules/pstack-models.md` (pstack's Claude Code adapter reads it). Not applied today.
 
 ## G. Codex
 
@@ -54,6 +58,8 @@ Every morning `ops/daily-update.sh` (a systemd user timer on the dev VM, where C
 | done means the app works end to end | the scripted day in `npm test` (Coach Max only); others: none yet |
 | a kit screen keeps working | the scenario `check` mode (once the harness merges) |
 | one real agent turn around admission changes | none yet (the release check is not built) |
+| the builder never reads the evaluator's script | none yet (factory-v3 AC-8 plans a transcript scan) |
+| no agent sets a person's verdict | the host: no verdict route on an app's origin (#2068); from an agent's own tools, none yet |
 | test traffic never on the production key | none yet (`agent/anthropic-evals` not created) |
 | a preview does not ship by itself | none yet |
 | stop your own waits before reporting | none yet |

@@ -1,6 +1,6 @@
 ---
 name: task-card
-description: "The task card and the task store: the card's parts, the rules for acceptance lines, and how a worker claims, comments, asks, reports and closes a task with the boring CLI. Replaces the card rules scattered in briefs, the report skill and platform-request. Use when you read or write a card, check its AC lines, need a person's answer, report where a task stands, or hit something only the platform can fix."
+description: "The task card and the task store: the card's parts, the rules for acceptance lines, the words a person reads, who sets a verdict, and how a worker claims, comments, asks, reports and closes a task with the boring CLI. Replaces the card rules scattered in briefs, the report skill and platform-request. Use when you read or write a card, check its AC lines, need a person's answer, report where a task stands, or hit something only the platform can fix."
 ---
 
 # The task card
@@ -34,6 +34,21 @@ Each rule comes from a failure in November 2026. A line that breaks one is sent 
 
 Numbers never change; a new line takes the next number. Fictional data only.
 
+## The words a person reads
+
+The only source is `services/tasks/ui/wording.ts` in boring-factory (it implements the "Cards G-a and G-b" table of `/home/ubuntu/fleet/contracts/task-card-status-pages.md`); read it before you write anything a person sees. The words you most often write yourself:
+
+- a line's state: « À essayer », « Ça marche », « Ça ne marche pas », « Pas pu essayer »;
+- whose turn it is: « En fabrication », « On vérifie, rien à faire », « Disponible dans l'app », « À toi » (once per page);
+- the score: « n sur m réussis », only once something was tried;
+- the stage: one of four phrases (« On précise », « On fabrique », « Tu essaies », « Tu t'en sers »), never six step names.
+
+Stored values (OK, KO, Bloqué) are for code only. In a card, a comment, a status or a message to a person, never write « recette », « KO », "OK/KO" or a bare "3 / 6".
+
+## Verdicts are the person's
+
+Whether something works for the person is their verdict. No agent writes it: not the builder, not the tester, not you. It is never written from an app's own origin either (the in-app panel is read-only; the person gives it in Studio). The tester's result goes beside it, in its own field or comment, labelled as the tester's.
+
 ## Working a card with the boring CLI
 
 `<app>` is the app or space name, `<task>` the task's id. `boring task --help` and `boring --help` are the source of truth for flags.
@@ -51,7 +66,7 @@ A worker never types a status by hand to say "done": the store and the live comm
 
 ## Reporting where things stand
 
-Short, one screen, from the store and the live commit: **moving** (task, what it does now), **stuck** (what is wrong and why), **needs Julien** (the question, its default, your recommendation), **live since last report**. A report reads; it starts nothing.
+Short, one screen, from the store and the live commit: **moving** (task, what it does now), **stuck** (what is wrong and why), **needs Julien** (the question, its default, your recommendation), **live since last report**. A report reads; it starts nothing. To a person, use the words above.
 
 ## When only the platform can fix it
 

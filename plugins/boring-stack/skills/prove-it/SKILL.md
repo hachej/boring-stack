@@ -5,7 +5,7 @@ description: "Proof that a change works for a person, with the factory's own too
 
 # Prove it
 
-Done means a person could see it work: every AC line passes on the real surface, and an agent that did not build it walked it without a blocking or wrong-result defect. Green CI and your own report are not proof.
+Done means a person could see it work: every AC line passes on the real surface, and the evaluator's script, written before the build and run after the ship by an agent that built nothing, found no blocking or wrong-result defect. The person's own try comes after. Green CI and your own report are not proof.
 
 ## 1. One row per AC line
 
@@ -36,9 +36,14 @@ A project with no scripted way to drive the app gets one first: pstack `create-v
 
 A named case family, a threshold, three runs in a row, sentences as people really write them (several items, corrections, sequences), not one clean sentence at a time. Evals use the evals key (Vault `agent/anthropic-evals` once it exists), never the production key: on 12 November test traffic on the production key took a live app's model down for an hour. If only the production key exists, stop and ask (`task-card`).
 
-## 4. The independent walkthrough
+## 4. The evaluator: script before build, run after ship
 
-After the ship, a fresh `boring-stack:tester` (an agent that built nothing) uses the live app as the card's person, at 390 and 1280 px, with a short script from the AC plus free wandering. It returns steps without a hitch out of N, defects by severity (blocks the job, wrong result, confusing, cosmetic) and up to five places that are "not simple". A "blocks" or "wrong result" defect reopens the task for the same owner.
+Two fixed moments, two agents, neither of them the builder:
+
+1. **Before the build** (features): `boring-stack:ac-reviewer` reads the card cold, judges the lines and writes the script to `~/fleet/evaluator/<product>/<card>/script.md`, extending the app's scripted day or kit scenario where one exists. No builder starts until it exists. The builder knows the folder exists and never reads it: a proof written to pass a known script proves nothing.
+2. **After the ship**: a fresh `boring-stack:tester` runs that script on the live app at 390 and 1280 px, wanders as the person, and writes `verdict.json` beside it: steps without a hitch out of N, defects by severity (blocks the job, wrong result, confusing, cosmetic), up to five places that are "not simple". A "blocks" or "wrong result" defect reopens the task for the same owner.
+
+**Hard rule: the verdict is the person's.** Whether a line works for them (« Ça marche », « Ça ne marche pas », « Pas pu essayer ») is set by the person, in Studio, never by an agent and never from an app's own origin. The builder's evidence and the tester's result sit beside it, labelled as theirs (« Preuve du développeur », « Test de l'agent »). Words a person reads come from `services/tasks/ui/wording.ts` (boring-factory): « n sur m réussis » only once something was tried, never « recette », « KO » or a bare "3 / 6".
 
 ## 5. Say what you did not prove
 

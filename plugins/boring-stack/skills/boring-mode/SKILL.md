@@ -20,12 +20,12 @@ In Claude Code a guard enforces the two loads that matter: after `boring-mode`, 
 | The card | Route (load in this order) | It ends with this proof |
 |---|---|---|
 | **Fix**, app screen | `task-card` → poteto **Bug fix** → `design` only if it changes how a screen looks → `prove-it` → `ship` | the failing run before, the passing run after on the same surface, a demo video of the gesture on the live app |
-| **Feature**, app screen | `task-card` → poteto **Feature** → `ui-kit` → `design` → `prove-it` → `ship` | one row per AC with its evidence; a demo video; the app's scripted day still green; the independent walkthrough |
+| **Feature**, app screen | start only when `~/fleet/evaluator/<product>/<card>/script.md` exists (written by `boring-stack:ac-reviewer`; never read it) → `task-card` → poteto **Feature** → `ui-kit` → `design` → `prove-it` → `ship` | one row per AC with its evidence; a demo video; the app's scripted day still green; the tester's run of the evaluator's script |
 | **UI kit** (repo boring-ui) | `task-card` → poteto **Feature** or **Bug fix** → `ui-kit` (kit section) → `design` → `prove-it` → `ship` | a scenario for the screen, `ux check` green, a capture strip or video |
 | **Platform code** (repo boring-factory) | `task-card` → the poteto playbook that fits → `prove-it` → `ship` | tests that fail without the change; one real run of the changed path on the live system |
 | **Doc or skill** | `task-card` → poteto **Authoring a skill** or pstack `technical-writing` → `ship` | the repo's own checks; for a skill, one fresh agent run that follows it |
 | **Question only** (how, why, are we sure) | poteto **Investigation** → answer on the card with `boring task comment` | a cited answer, every claim with its evidence |
-| **No AC lines**, or a need that is not a card yet | `pm`: write the card, have it reviewed (`boring-stack:ac-reviewer`), then come back here | the card, reviewed `ready` |
+| **No AC lines**, or a need that is not a card yet | `pm`: write the card, have it reviewed (`boring-stack:ac-reviewer`), then come back here | the card, reviewed `ready`, with its evaluator script |
 
 Two modifiers add to any route:
 
@@ -42,6 +42,7 @@ Budget (measured with `claude plugin details`): a fix route loads `boring-mode`,
 - **A person decides only two things:** what to build (the card and its AC), and risky actions: secrets, payments, real e-mail, widening someone's rights, deleting data. Everything else goes ahead and is reported in one batch.
 - **Ask with numbered choices,** the recommended one first, all questions in one message. Short replies are the answers ("1", "oui").
 - **Status from facts:** the pull request, the live commit (`boring app live`), the AC results. Say "live" only when the live commit contains yours. "Unknown" is a valid answer.
+- **The verdict is the person's.** You never set whether a line works for them, never from the app's own origin; your evidence sits beside it. Words a person reads come from `services/tasks/ui/wording.ts` (boring-factory): never « recette », « KO » or a bare "3 / 6".
 - **Short replies in plain words.** What changed for the person using the app, then the evidence, then what is open. Name a task with its id and title, never a bare id.
 - **Root causes.** A bug in one app is checked in the others that share the code; a fix in the shared kit beats the same fix in two apps.
 - **Fictional data only.** The test person (`hub-e2e@`) and invented records; never a real person's data on screen, in a video or in a log.
@@ -50,7 +51,7 @@ Budget (measured with `claude plugin details`): a fix route loads `boring-mode`,
 
 - **Deploys.** poteto-mode pauses on every deploy. Here a preview is a ship and you ship your own task through the boring CLI when its checks pass (`ship`). Pause only for the risky actions above.
 - **Models.** Roles map to models in `~/.claude/rules/pstack-models.md` (the plugin's `rules/pstack-models.md`). A Cursor or Grok slug in a pstack skill means: omit `model`, run on the session's model.
-- **Sub-agents.** Delegates inside a playbook are `pstack:poteto-agent`, as poteto-mode says. A whole new task goes to `boring-stack:builder`. The independent walkthrough is `boring-stack:tester`; the AC review is `boring-stack:ac-reviewer`. Neither builds.
+- **Sub-agents.** Delegates inside a playbook are `pstack:poteto-agent`, as poteto-mode says. A whole new task goes to `boring-stack:builder`. The evaluator is two agents that never build: `boring-stack:ac-reviewer` judges the lines and writes the script before the build; `boring-stack:tester` runs it after the ship.
 - **Cursor-only steps** (Bugbot, Automations, cloud agents): skip with one line, as pstack's Claude Code adapter says.
 - **Evidence** stays out of git: `.agent-handoff/` while you work, `/home/ubuntu/fleet/evidence/<app>/<task>/` for videos.
 

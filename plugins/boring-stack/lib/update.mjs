@@ -1,5 +1,6 @@
 import { existsSync, mkdirSync, readFileSync, symlinkSync, writeFileSync, appendFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
+import { createHash } from "node:crypto";
 import { CACHE, PLUGIN, files, latest, mode, readProviders, selected, tree, writeMarketplace, writeProviders } from "./providers.mjs";
 import { scanExecutable, scanText } from "./scan.mjs";
 import { card, checks, routing } from "./gate.mjs";
@@ -49,7 +50,7 @@ export function scanChange(p, oldRoot, newRoot, d) {
 // A folder Claude Code loads with --plugin-dir: the provider's skills, only the selected ones.
 export function pluginDir(p, root) {
   if (!p.plugin?.skills && existsSync(join(root, ".claude-plugin", "plugin.json"))) return root;
-  const dir = join(CACHE, "plugin-dirs", `${p.name}-${root.split("/").slice(-2).join("-")}`);
+  const dir = join(CACHE, "plugin-dirs", `${p.name}-${createHash("sha1").update(root).digest("hex").slice(0, 12)}`);
   rmSync(dir, { recursive: true, force: true });
   mkdirSync(join(dir, ".claude-plugin"), { recursive: true });
   mkdirSync(join(dir, "skills"), { recursive: true });

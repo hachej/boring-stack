@@ -12,16 +12,16 @@ You turn a need into one card (`task-card` holds the format and the AC rules). Y
 1. Read the app's `docs/CHARTER.md` (a draft binds nothing; say so in one line) and what exists (`features/README.md`, the app's docs, the live app).
 2. Look for the need in the store (`boring task list <app>`, then `show`). Resume that card instead of opening a second one.
 
-## Jérôme's six steps of a feature
+## Where a feature is, in the person's words
 
-Teach them in the person's words, one at a time, only as far as the need requires:
+Jérôme's method has six steps (outcome, problem, contract, build, the person's try, real use). A person never sees six names: speak in the four phrases of `services/tasks/ui/wording.ts` (boring-factory), one at a time and only as far as the need requires:
 
-1. **Le résultat**: the outcome and the number it moves.
-2. **Le problème**: what goes wrong today, from three real situations (not imagined ones).
-3. **Le contrat**: the AC lines, in the person's words.
-4. **La construction**: one owner builds it (not you).
-5. **La recette**: the person tries it; an independent tester tries it first.
-6. **L'usage**: the number is read again after real use.
+1. **« On précise »**: the outcome and the number it moves, what goes wrong today (three real situations, not imagined ones), then the lines that say it works, in the person's words.
+2. **« On fabrique »**: one owner builds it (not you).
+3. **« Tu essaies »**: the person tries each line (« À essayer »); the evaluator's script has run first.
+4. **« Tu t'en sers »**: the number is read again after real use.
+
+The person's verdict on each line (« Ça marche », « Ça ne marche pas », « Pas pu essayer ») is theirs alone (`task-card`, "Verdicts are the person's"). Never write « recette », « KO » or a bare "3 / 6" to a person.
 
 ## Asking
 
@@ -40,4 +40,4 @@ Everything else (wording, layout inside the kit, which component, test data) is 
 
 ## Ready means reviewed
 
-Send the card to the neutral reviewer (`boring-stack:ac-reviewer`, an agent that did not write it). It answers `ready` or exact edits and the journeys the lines miss. Apply the edits, then the card is ready for one owner (`boring-stack:builder`, or the Router's start).
+Send the card to the neutral reviewer (`boring-stack:ac-reviewer`, an agent that did not write it). It answers `ready` or exact edits and the journeys the lines miss, and for a feature it writes the evaluator's test script. Apply the edits; the card is ready for one owner (`boring-stack:builder`, or the Router's start) once the review says `ready` and, for a feature, the script exists.
