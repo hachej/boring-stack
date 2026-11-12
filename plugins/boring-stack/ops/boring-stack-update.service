@@ -5,6 +5,8 @@ Description=boring-stack: adopt upstream skills that pass the safety scan and th
 [Service]
 Type=oneshot
 ExecStart=%h/fleet/boring-stack-upstream/plugins/boring-stack/ops/daily-update.sh
+# A user unit gets the bare system PATH; claude (and the gate's worker) live in ~/.local/bin.
+Environment=PATH=%h/.local/bin:/usr/local/bin:/usr/bin:/bin
 Nice=10
 TimeoutStartSec=3600
 MemoryMax=4G
