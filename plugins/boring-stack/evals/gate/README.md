@@ -1,6 +1,6 @@
 # The gate: one fixed card through a fresh worker
 
-`boring-stack gate` (and `boring-stack update` when a provider has a candidate) copies `fixture/` into a temporary folder, makes it a git repository, and starts a fresh headless Claude Code worker there with only this plugin and the candidate providers loaded for that run (`--plugin-dir`; nothing is installed or enabled on the machine). The prompt is `prompt.md`: it names one skill, `boring-stack:boring-mode`.
+`boring-stack gate` (and `boring-stack update` when a provider has a candidate) copies `fixture/` into a temporary folder, makes it a git repository, and starts a fresh headless Claude Code worker there with only this plugin and the candidate providers loaded for that run (`--plugin-dir`; nothing is installed or enabled on the machine). The prompt is `prompt.md`: it starts with `/boring-stack:boring-mode CARD.md`, the way a conductor starts a task.
 
 The fixture is a tiny day-of-meals module with three seeded defects (the total concatenates strings, removing a line removes every line after it, an empty day shows no total) and a card, `fixture/CARD.md`, with three acceptance lines. No production app, key or person is touched.
 
@@ -16,4 +16,4 @@ The fixture is a tiny day-of-meals module with three seeded defects (the total c
 8. it shipped: a commit naming G-1 on a branch other than main;
 9. it wrote no settings file and no `CLAUDE.md`.
 
-Not covered yet: the demo video (the `demo-video` skill joins when library PR #16 merges; then the card gains a fourth line checked with `record.mjs --fast` on `index.html`) and the independent walkthrough (a tester run doubles the cost; it runs on real cards).
+Not covered: the demo video (`boring-library:demo-video` is installed and routed from `prove-it`, but a recording needs Chromium and ffmpeg in every gate run) and the independent walkthrough (a tester run doubles the cost; it runs on real cards).

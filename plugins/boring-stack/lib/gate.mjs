@@ -1,6 +1,6 @@
 import { execFileSync, spawnSync } from "node:child_process";
-import { copyFileSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { copyFileSync, cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { homedir, tmpdir } from "node:os";
 import { join } from "node:path";
 import { PLUGIN, REPO } from "./providers.mjs";
 
@@ -73,6 +73,19 @@ export function calls(trace) {
   return out.join("\n");
 }
 
+// A typed `/boring-mode` expands without a tool call and stream-json leaves the expansion out;
+// the session's own transcript keeps the command line.
+export function typed(trace, skill) {
+  let sid; try { sid = JSON.parse(trace.split("\n")[0]).session_id; } catch { return false; }
+  const root = join(homedir(), ".claude", "projects");
+  if (!sid || !existsSync(root)) return false;
+  for (const d of readdirSync(root)) {
+    const f = join(root, d, `${sid}.jsonl`);
+    if (existsSync(f)) return readFileSync(f, "utf8").includes(`<command-name>/${skill}<`);
+  }
+  return false;
+}
+
 export function grade(work, trace) {
   const did = calls(trace);
   const has = (re) => re.test(did);
@@ -83,7 +96,7 @@ export function grade(work, trace) {
   const proof = existsSync(join(work, ".agent-handoff", "proof.md")) ? readFileSync(join(work, ".agent-handoff", "proof.md"), "utf8") : "";
   const log = spawnSync("git", ["log", "--all", "--format=%s%n%b"], { cwd: work, encoding: "utf8" }).stdout || "";
   return [
-    { fact: "loaded boring-mode", ok: has(/boring-stack:boring-mode|boring-mode\/SKILL\.md/) },
+    { fact: "loaded boring-mode", ok: has(/boring-stack:boring-mode|boring-mode\/SKILL\.md/) || typed(trace, "boring-stack:boring-mode") },
     { fact: "read poteto-mode in full", ok: has(/poteto-mode\/SKILL\.md/) },
     { fact: "followed a poteto playbook", ok: has(/playbooks\/(bug-fix|feature)\.md/) },
     { fact: "loaded prove-it and ship", ok: has(/(boring-stack:prove-it|prove-it\/SKILL\.md)/) && has(/(boring-stack:ship\b|skills\/ship\/SKILL\.md)/) },

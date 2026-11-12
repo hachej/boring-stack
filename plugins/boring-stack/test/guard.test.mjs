@@ -8,10 +8,25 @@ import { fileURLToPath } from "node:url";
 
 const guard = join(dirname(fileURLToPath(import.meta.url)), "..", "hooks", "guard.mjs");
 const data = mkdtempSync(join(tmpdir(), "guard-"));
-const hook = (phase, session, tool_name, tool_input) => {
-  const r = spawnSync("node", [guard, phase], { input: JSON.stringify({ session_id: session, tool_name, tool_input }), encoding: "utf8", env: { ...process.env, CLAUDE_PLUGIN_DATA: data } });
+const hook = (phase, session, tool_name, tool_input, extra = {}) => {
+  const r = spawnSync("node", [guard, phase], { input: JSON.stringify({ session_id: session, tool_name, tool_input, ...extra }), encoding: "utf8", env: { ...process.env, CLAUDE_PLUGIN_DATA: data } });
   return r.stdout ? JSON.parse(r.stdout).hookSpecificOutput.permissionDecisionReason : "allow";
 };
+
+test("a typed /boring-mode arms the guard like a Skill load", () => {
+  hook("loaded", "t", "", {}, { hook_event_name: "UserPromptExpansion", command_name: "boring-stack:boring-mode", command_args: "coach-max D-12" });
+  assert.match(hook("pre", "t", "Write", { file_path: "src/x.mjs" }), /poteto-mode/);
+  hook("loaded", "u", "", {}, { hook_event_name: "UserPromptExpansion", command_name: "deploy" });
+  assert.equal(hook("pre", "u", "Write", { file_path: "src/x.mjs" }), "allow");
+});
+
+test("a builder sub-agent is armed at start; its conductor is not", () => {
+  hook("loaded", "v", "", {}, { hook_event_name: "SubagentStart", agent_id: "b1", agent_type: "boring-stack:builder" });
+  assert.match(hook("pre", "v", "Write", { file_path: "src/x.mjs" }, { agent_id: "b1", agent_type: "boring-stack:builder" }), /poteto-mode/);
+  assert.equal(hook("pre", "v", "Write", { file_path: "src/x.mjs" }), "allow");
+  hook("loaded", "v", "", {}, { hook_event_name: "SubagentStart", agent_id: "p1", agent_type: "pstack:poteto-agent" });
+  assert.equal(hook("pre", "v", "Write", { file_path: "src/x.mjs" }, { agent_id: "p1", agent_type: "pstack:poteto-agent" }), "allow");
+});
 
 test("a session that never loaded boring-mode is untouched", () => {
   assert.equal(hook("pre", "a", "Edit", { file_path: "src/x.mjs" }), "allow");

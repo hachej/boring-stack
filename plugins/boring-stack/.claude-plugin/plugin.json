@@ -8,5 +8,5 @@
   "repository": "https://github.com/hachej/boring-stack",
   "license": "MIT",
   "keywords": ["boring-factory", "pstack", "poteto-mode", "workers", "design", "task-card"],
-  "dependencies": ["pstack", "cursor-team-kit", "emil-design", "shadcn", "boring-ui-kit"]
+  "dependencies": ["pstack", "cursor-team-kit", "emil-design", "shadcn", "boring-ui-kit", "boring-library"]
 }

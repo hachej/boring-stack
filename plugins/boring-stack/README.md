@@ -14,6 +14,19 @@ On a machine that already has `pstack@cursor-plugins`, disable it first (`claude
 
 For one session only, without installing: `claude --plugin-dir plugins/boring-stack --plugin-dir <each provider folder>` (that is what the gate does).
 
+## Starting a task
+
+The way pstack starts one with `/poteto-mode`:
+
+| Worker | Write this | Why it holds |
+|---|---|---|
+| A conductor's sub-agent | `subagent_type: "boring-stack:builder"`, brief = `<app> <task-id>` | the agent preloads `boring-mode` (its `skills:` field); a `/command` line in an Agent prompt does not expand |
+| A session started by a script or the Router | `claude -p "/boring-mode <app> <task-id>"` | the command expands before the model runs |
+| Julien's interactive session | `/boring-mode <app> <task-id>` | same |
+| Codex | nothing: `export-codex` writes the routing block into `AGENTS.md` | Codex has no slash skills |
+
+`/boring-mode` resolves to this plugin's skill only when no older user skill of that name exists; `/boring-stack:boring-mode` always does.
+
 ## What a worker loads
 
 1. `boring-stack:boring-mode` (its start instructions name only this).

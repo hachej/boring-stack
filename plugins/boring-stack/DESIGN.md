@@ -72,4 +72,4 @@ Every morning `ops/daily-update.sh` (a systemd user timer on the dev VM, where C
 
 ## Card changes
 
-P-1: pinned by commit in our marketplace, not by a pstack version (cursor/plugins has no tags, so a version range cannot resolve). P-5: one settings source works, but `pstack@cursor-plugins` must be disabled and `prompts-sync` must stop copying the old `boring-mode`, or the two collide (seen in a live run). P-7: upgrades are daily and automatic through the gate, not a manual task. P-8: proof is the gate's own hidden AC test plus transcript facts; the video joins with PR #16.
+P-1: pinned by commit in our marketplace, not by a pstack version (cursor/plugins has no tags, so a version range cannot resolve). P-5: one settings source works, but `pstack@cursor-plugins` must be disabled and `prompts-sync` must stop copying the old `boring-mode`, or the two collide (seen in a live run). P-7: upgrades are daily and automatic through the gate, not a manual task. P-8: proof is the gate's own hidden AC test plus transcript facts; the video is `boring-library:demo-video` (library PR #16), routed from `prove-it`; the gate does not record one (Chromium and ffmpeg per run).

@@ -79,6 +79,15 @@
       "plugin": { "skills": ["boring-ui", "app-layout-and-agent", "add-blocks", "boring-design-system", "agent-capabilities", "build-agent-app"] },
       "why": "The kit's own skills (boring-ui, app-layout-and-agent, add-blocks, boring-design-system, agent-capabilities, build-agent-app). Ours, reviewed by the kit's pull requests, so they track main and are not scanned as third-party.",
       "routes": { "boring-ui": "Boring UI", "app-layout-and-agent": "AppShell", "add-blocks": "block", "boring-design-system": "token|design" }
+    },
+    {
+      "name": "boring-library",
+      "repo": "hachej/boring-stack",
+      "path": "skills",
+      "ref": "main",
+      "plugin": { "skills": ["demo-video"] },
+      "why": "This library's own skills that the plugin routes to but does not hold: demo-video, the recorder prove-it names. Ours, reviewed by this repository's pull requests, so they track main.",
+      "routes": { "demo-video": "video" }
     }
   ]
 }

@@ -17,7 +17,7 @@ Verdicts: **route** (boring-mode sends a worker to it at a named step), **keep**
 | verify-this | ours (library; really cursor-team-kit's, lightly edited) | verify a claim | retire | folded into `prove-it` (the claim row) |
 | reflect | ours (library) | learnings into the repo | retire | stale paths (vendor/, boring-ui-v3); pstack `correct` and `reflect` cover it |
 | delegate | ours (local, `~/.agents/skills/delegate`) | conductor drives herdr workers | keep | conductor tool, not a worker skill |
-| demo-video | ours (library PR #16, open) | captioned proof video | route (when #16 merges) | named in `prove-it`; the plugin picks it up as an eighth folder or as a provider of ours |
+| demo-video | ours (library `skills/demo-video`, PR #16) | captioned proof video | route | `prove-it`'s recorder; installed as `boring-library:demo-video`, a provider of ours that selects only this folder |
 | stageshow | library (benjitaylor/skills, vendored) | faux product stills | retire from default | marketing illustration, not proof; install upstream by hand when needed |
 | agentsview-finding-history | local | search agent history | keep | Julien's own tool |
 | better | local | `/better` prompt deepening | keep | typed by Julien only |

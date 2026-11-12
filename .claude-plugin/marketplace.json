@@ -85,6 +85,19 @@
         "./agent-capabilities",
         "./build-agent-app"
       ]
+    },
+    {
+      "name": "boring-library",
+      "description": "hachej/boring-stack/skills, ours, tracks main",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/hachej/boring-stack.git",
+        "path": "skills",
+        "ref": "main"
+      },
+      "skills": [
+        "./demo-video"
+      ]
     }
   ]
 }

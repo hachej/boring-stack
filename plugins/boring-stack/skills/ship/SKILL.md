@@ -10,7 +10,7 @@ Follow poteto-mode's **Opening a PR** (worktree, small ordered commits, `deslop`
 ## The pull request
 
 - Ready, never a draft. Title per poteto-mode. The body names the card (id and title), its `Serves:` line, then poteto's sections, the evidence table from `prove-it`, and one **Merge danger** line: one-way or two-way door (does a revert undo it, or does data, a migration or an outside effect stay?) and the blast radius.
-- One task, one branch, one pull request. Never touch another task's branch.
+- One task, one branch, one pull request. Never touch another task's branch. Every commit message names the card's id (`D-n`), so the log says which task each change serves.
 
 ## Going live
 
@@ -35,4 +35,4 @@ Follow poteto-mode's **Opening a PR** (worktree, small ordered commits, `deslop`
 
 ## After live
 
-Hand the evaluator's script to `boring-stack:tester` (`prove-it` section 4). You never mark a line as working for the person: "mark the request shipped" (`boring ship --task`) records the ship, not the person's verdict. Report per `boring-mode` section 5.
+Hand the evaluator's script to `boring-stack:tester` (`prove-it` section 4). You never mark a line as working for the person: "mark the request shipped" (`boring ship --task`) records the ship, not the person's verdict. Report as `boring-mode` says (Writing the reply).

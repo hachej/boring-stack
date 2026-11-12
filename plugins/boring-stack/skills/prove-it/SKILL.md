@@ -22,7 +22,7 @@ Kind is `test`, `driven-ui`, `eval` or `walkthrough`; never claim a stronger kin
 | Surface | Tool |
 |---|---|
 | A live app, signed in | `node evals/e2e/live-session.mjs <app> -- <your command>` in boring-factory: the test person's session in the child's environment only. Never sign in yourself (codes are rate-limited), never print or copy the cookie. |
-| A gesture a person makes | `demo-video` (`record.mjs --steps flow.json`; `--fast` as a check): captions, a pass or fail verdict, `strip.png`, `steps.json`. Videos go to `/home/ubuntu/fleet/evidence/<app>/<task>/`, never in git; attach `strip.png` and `steps.json` to the card. It joins the plugin when library PR #16 merges; until then drive the page with `control-ui` and keep screenshots. |
+| A gesture a person makes | `boring-library:demo-video` (`node "$(dirname "$(boring-stack where demo-video)")"/scripts/record.mjs --steps flow.json`; `--fast` as a check): captions, a pass or fail verdict, `strip.png`, `steps.json`. Videos go to `/home/ubuntu/fleet/evidence/<app>/<task>/`, never in git; attach `strip.png` and `steps.json` to the card. |
 | An app's day of use | the app's scripted day when it has one (Coach Max: `node test/evals/day/run.ts`, part of `npm test`; `--live` only with the test person, and it clears what it wrote) |
 | A kit screen or component | its scenario: `node ux/runner/cli.mjs check --target <t>` and `capture` (see `ui-kit`) |
 | A CLI or a TUI | `control-cli` |
