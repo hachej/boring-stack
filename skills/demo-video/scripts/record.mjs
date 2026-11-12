@@ -2,7 +2,7 @@
 // demo-video: record a short, watchable video of a web product doing something, or check it without a video (--fast).
 // Usage: node record.mjs --steps steps.json --out DIR [--url URL] [--viewport phone|desktop|WxH[:touch]] [--fast] ...   (--help for all)
 import { spawn, spawnSync } from 'node:child_process';
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
+import { existsSync, mkdirSync, realpathSync, mkdtempSync, readFileSync, readdirSync, renameSync, rmSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { homedir, tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
@@ -275,7 +275,7 @@ export async function main(argv) {
   }
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+if (process.argv[1] && realpathSync(process.argv[1]) === realpathSync(fileURLToPath(import.meta.url))) { // also when run through the skills symlink
   main(process.argv.slice(2)).then((code) => process.exit(code), (e) => {
     const m = safeError(e);
     console.error(e instanceof UsageError ? `usage: ${m}` : e instanceof SecretRefusal ? m : `error: ${m}`);
