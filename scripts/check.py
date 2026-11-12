@@ -43,6 +43,19 @@ def check(root: Path) -> list[str]:
             errors.append(f"skills/{one.name}/SKILL.md: front matter is not valid YAML (quote the value): {str(e).splitlines()[0]}")
         if one.name not in ours and not ((one / "LICENSE").exists() or (one / "LICENSE.txt").exists()):
             errors.append(f"skills/{one.name}: a third-party skill carries its LICENSE")
+    # The plugin's own skills: name = folder, a description that says what it replaces, at most eight.
+    for plugin_skills in sorted((root / "plugins").glob("*/skills")):
+        ours_in_plugin = sorted(p for p in plugin_skills.iterdir() if p.is_dir())
+        if len(ours_in_plugin) > 8:
+            errors.append(f"{plugin_skills.relative_to(root)}: {len(ours_in_plugin)} skills, the ceiling is eight")
+        for one in ours_in_plugin:
+            text = (one / "SKILL.md").read_text() if (one / "SKILL.md").exists() else ""
+            front = re.match(r"^---\n(.*?)\n---\n", text, re.S)
+            if not front or not re.search(rf"^name:\s*\"?{re.escape(one.name)}\"?\s*$", front.group(1), re.M):
+                errors.append(f"{one.relative_to(root)}/SKILL.md: name must equal the folder name")
+            elif "Replaces" not in front.group(1):
+                errors.append(f"{one.relative_to(root)}/SKILL.md: the description says what it replaces")
+
     skill = root / "skills" / "boring-pm"
     entry = (skill / "SKILL.md").read_text()
     for name in ("onboarding.md", "discovery.md", "tickets.md", "mockups.md", "templates/contract.md", "templates/mockup.html", "templates/scenario.md"):

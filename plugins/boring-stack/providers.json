@@ -1,0 +1,84 @@
+{
+  "note": "Upstream skill sets boring-stack builds on. Each is installed by reference from its own repository at the adopted commit and never copied here. `boring-stack update` moves `adopted` forward only when the safety scan is clean and the gate passes; `hold: true` keeps a provider where it is. Our own skills are not providers: they change by pull request.",
+  "providers": [
+    {
+      "name": "pstack",
+      "repo": "cursor/plugins",
+      "path": "harness/pstack/claude-code",
+      "ref": "main",
+      "adopted": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "adopted_version": "0.15.36",
+      "adopted_on": "2026-11-12",
+      "license": "MIT",
+      "fetch": "Claude Code plugin (git-subdir in this marketplace); Codex: symlinked by `boring-stack export-codex`",
+      "plugin": { "skills": null },
+      "routes": {
+        "poteto-mode": "poteto",
+        "correct": "mistake",
+        "interrogate": "break",
+        "blast-radius": "break",
+        "unslop": "writing",
+        "technical-writing": "doc",
+        "create-verification-skill": "verif",
+        "tdd": "test"
+      },
+      "playbooks": ["investigation", "bug-fix", "feature", "refactoring", "perf-issue", "prototype", "visual-parity", "authoring-a-skill", "opening-a-pr", "multi-phase-plan"],
+      "agents": ["poteto-agent"]
+    },
+    {
+      "name": "cursor-team-kit",
+      "repo": "cursor/plugins",
+      "path": "cursor-team-kit/skills",
+      "ref": "main",
+      "adopted": "2b8ae2ee306f823d54879d3da7f8496b73c31d5d",
+      "adopted_version": "1.2.0",
+      "adopted_on": "2026-11-12",
+      "license": "MIT",
+      "fetch": "Claude Code plugin (git-subdir of skills/, only the selected folders: the kit is a Cursor plugin, not listed in the cursor-plugins Claude marketplace); Codex: symlinked",
+      "plugin": { "skills": ["control-ui", "control-cli", "deslop"] },
+      "routes": { "control-ui": "browser", "control-cli": "CLI", "deslop": "slop" }
+    },
+    {
+      "name": "emil-design",
+      "repo": "emilkowalski/skills",
+      "path": "skills",
+      "ref": "main",
+      "adopted": "e8a175de22ae1e49370fc144c1f3bb9aeedf988d",
+      "adopted_on": "2026-10-02",
+      "license": "MIT",
+      "fetch": "Claude Code plugin (git-subdir of skills/, only the selected folders); Codex: symlinked",
+      "plugin": { "skills": ["emil-design-eng", "animate", "review-animations", "improve-animations", "mobile-native", "break-ui"] },
+      "routes": {
+        "emil-design-eng": "polish|design",
+        "animate": "animat",
+        "review-animations": "animation",
+        "improve-animations": "animation",
+        "mobile-native": "phone|mobile",
+        "break-ui": "worst|break"
+      }
+    },
+    {
+      "name": "shadcn",
+      "repo": "shadcn-ui/ui",
+      "path": "skills/shadcn",
+      "ref": "main",
+      "adopted": "2d3f1cd436b18ea12f24130de4df781355925b08",
+      "adopted_on": "2026-10-12",
+      "license": "MIT",
+      "fetch": "Claude Code plugin (git-subdir; one skill at the root); Codex: symlinked",
+      "plugin": { "skills": null },
+      "routes": { "shadcn": "shadcn" }
+    }
+  ],
+  "ours_elsewhere": [
+    {
+      "name": "boring-ui-kit",
+      "repo": "hachej/boring-ui",
+      "path": "skills",
+      "ref": "main",
+      "plugin": { "skills": ["boring-ui", "app-layout-and-agent", "add-blocks", "boring-design-system", "agent-capabilities", "build-agent-app"] },
+      "why": "The kit's own skills (boring-ui, app-layout-and-agent, add-blocks, boring-design-system, agent-capabilities, build-agent-app). Ours, reviewed by the kit's pull requests, so they track main and are not scanned as third-party.",
+      "routes": { "boring-ui": "Boring UI", "app-layout-and-agent": "AppShell", "add-blocks": "block", "boring-design-system": "token|design" }
+    }
+  ]
+}

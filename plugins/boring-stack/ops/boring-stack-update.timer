@@ -1,0 +1,11 @@
+# manual: plugins/boring-stack/README.md ("Daily updates"). Inert until enabled.
+[Unit]
+Description=boring-stack daily upstream update
+
+[Timer]
+OnCalendar=*-*-* 04:30:00 UTC
+RandomizedDelaySec=900
+Persistent=true
+
+[Install]
+WantedBy=timers.target
