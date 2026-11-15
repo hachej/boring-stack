@@ -6,9 +6,9 @@
       "repo": "cursor/plugins",
       "path": "harness/pstack/claude-code",
       "ref": "main",
-      "adopted": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c",
+      "adopted": "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7",
       "adopted_version": "0.15.36",
-      "adopted_on": "2026-11-12",
+      "adopted_on": "2026-11-15",
       "license": "MIT",
       "fetch": "Claude Code plugin (git-subdir in this marketplace); Codex: symlinked by `boring-stack export-codex`",
       "plugin": {
@@ -68,8 +68,8 @@
       "repo": "emilkowalski/skills",
       "path": "skills",
       "ref": "main",
-      "adopted": "f7ce8c02d6e3c8f0d980a44c57bcc41a40254349",
-      "adopted_on": "2026-11-12",
+      "adopted": "0f2e23b32bb1265e84cff8d3e75785fec953fb1b",
+      "adopted_on": "2026-11-15",
       "license": "MIT",
       "fetch": "Claude Code plugin (git-subdir of skills/, only the selected folders); Codex: symlinked",
       "plugin": {
