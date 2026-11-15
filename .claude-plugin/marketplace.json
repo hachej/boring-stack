@@ -12,12 +12,12 @@
     },
     {
       "name": "pstack",
-      "description": "cursor/plugins/harness/pstack/claude-code at c742dd61706f (adopted 2026-11-12), by reference",
+      "description": "cursor/plugins/harness/pstack/claude-code at bf0c7cd80abd (adopted 2026-11-15), by reference",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/cursor/plugins.git",
         "path": "harness/pstack/claude-code",
-        "sha": "c742dd61706fbacc1b95f1a20b7b988cf096ce6c"
+        "sha": "bf0c7cd80abdbf7fe47b634978a7d1b4071f71a7"
       },
       "license": "MIT"
     },
@@ -39,12 +39,12 @@
     },
     {
       "name": "emil-design",
-      "description": "emilkowalski/skills/skills at f7ce8c02d6e3 (adopted 2026-11-12), by reference",
+      "description": "emilkowalski/skills/skills at 0f2e23b32bb1 (adopted 2026-11-15), by reference",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/emilkowalski/skills.git",
         "path": "skills",
-        "sha": "f7ce8c02d6e3c8f0d980a44c57bcc41a40254349"
+        "sha": "0f2e23b32bb1265e84cff8d3e75785fec953fb1b"
       },
       "skills": [
         "./emil-design-eng",
