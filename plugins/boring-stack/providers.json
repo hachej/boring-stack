@@ -68,8 +68,8 @@
       "repo": "emilkowalski/skills",
       "path": "skills",
       "ref": "main",
-      "adopted": "0f2e23b32bb1265e84cff8d3e75785fec953fb1b",
-      "adopted_on": "2026-11-15",
+      "adopted": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c",
+      "adopted_on": "2026-11-16",
       "license": "MIT",
       "fetch": "Claude Code plugin (git-subdir of skills/, only the selected folders); Codex: symlinked",
       "plugin": {

@@ -39,12 +39,12 @@
     },
     {
       "name": "emil-design",
-      "description": "emilkowalski/skills/skills at 0f2e23b32bb1 (adopted 2026-11-15), by reference",
+      "description": "emilkowalski/skills/skills at 64eb3deb9a5f (adopted 2026-11-16), by reference",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/emilkowalski/skills.git",
         "path": "skills",
-        "sha": "0f2e23b32bb1265e84cff8d3e75785fec953fb1b"
+        "sha": "64eb3deb9a5fbfa041faf783e0bc3fd635872e9c"
       },
       "skills": [
         "./emil-design-eng",
