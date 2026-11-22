@@ -40,12 +40,13 @@ Everything else (wording, layout inside the kit, which component, test data) is 
 
 Every AC line ends with who checks it, so a Studio app's gates can read it:
 - `check: agent how: <rung> …`, the `how` starting with `types`, `test`, `journey`, `eval` or `rehearsal`, for what a machine proves.
-- `check: expert how: sample` or `how: recette`, at most five lines, only for what needs the expert's trade or taste or touches an irreversible risk. When unsure, write `agent` and say so.
-- When the feature writes text or reads documents: ask once, in the same turn, for three or four fictional cases with the output the person expects for each, and write one expert `sample` line and one agent `eval` line. The expert attaches each corrected case as `sample: <case>`; never title anything `sample:` yourself.
+- `check: expert how: sample` or `how: recette`, at most five lines, only for what needs the expert's trade or taste or touches an irreversible risk. When unsure, write `agent` and say so. An expert line names the person and a date in its text, before `check:` (`task-card`, rule 2).
+- When the feature writes text or reads documents: ask once, in the same turn, for three or four fictional cases with the output the person expects for each, and write one expert `sample` line and one agent `eval` line. The expert writes that output himself and attaches each case as `sample: <case>`; never title anything `sample:` yourself.
 - When a request steps outside the process (launch with no sample, a second wave, a round before the tester's walk), say in one sentence which rule holds it and what moves it, in the person's language, then go on. Say it once.
+- What moves a rule: the missing step, or a person's override with a reason on the card. The app's owner may override any rule; the card's requester only the sample rule and the tester's walk; an agent never, and you never.
 
 ## Ready means reviewed
 
-In a Studio app's store, gate 1 refuses « Launch » with `no_runnable_check`, `expert_how`, `too_many_expert_lines`, `no_lines` or `no_sample` (the expert's corrected sample is missing); your cards in the masters' file store are not asked.
+In a Studio app's store, gate 1 refuses « Launch » with `no_runnable_check`, `expert_how`, `too_many_expert_lines`, `no_lines` or `no_sample` (the expert's corrected sample is missing). A card in the masters' file store (`boring task create`) is not held by gate 1: it has no « Launch ».
 
 Send the card to the neutral reviewer (`boring-stack:ac-reviewer`, an agent that did not write it). It answers `ready` or exact edits and the journeys the lines miss, and for a feature it writes the evaluator's test script. Apply the edits; the card is ready for one owner (`boring-stack:builder`, or the Router's start) once the review says `ready` and, for a feature, the script exists.
