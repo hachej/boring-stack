@@ -38,6 +38,14 @@ Everything else (wording, layout inside the kit, which component, test data) is 
 
 `boring task create <app> --type feature|fix --title "<outcome in their words>" --spec-file <file>`. The spec starts with `Serves:`, holds the need in their words and every question with its answer word for word, then `## Acceptance` with `- AC-1: …` lines following the eight rules of `task-card`, `Out of scope:`, and `Decisions:` with dates. No real person's data, ever.
 
+Every AC line ends with who checks it, so a Studio app's gates can read it:
+- `check: agent how: <rung> …`, the `how` starting with `types`, `test`, `journey`, `eval` or `rehearsal`, for what a machine proves.
+- `check: expert how: sample` or `how: recette`, at most five lines, only for what needs the expert's trade or taste or touches an irreversible risk. When unsure, write `agent` and say so.
+- When the feature writes text or reads documents: ask once, in the same turn, for three or four fictional cases with the output the person expects for each, and write one expert `sample` line and one agent `eval` line. The expert attaches each corrected case as `sample: <case>`; never title anything `sample:` yourself.
+- When a request steps outside the process (launch with no sample, a second wave, a round before the tester's walk), say in one sentence which rule holds it and what moves it, in the person's language, then go on. Say it once.
+
 ## Ready means reviewed
+
+In a Studio app's store, gate 1 refuses « Launch » with `no_runnable_check`, `expert_how`, `too_many_expert_lines`, `no_lines` or `no_sample` (the expert's corrected sample is missing); your cards in the masters' file store are not asked.
 
 Send the card to the neutral reviewer (`boring-stack:ac-reviewer`, an agent that did not write it). It answers `ready` or exact edits and the journeys the lines miss, and for a feature it writes the evaluator's test script. Apply the edits; the card is ready for one owner (`boring-stack:builder`, or the Router's start) once the review says `ready` and, for a feature, the script exists.
