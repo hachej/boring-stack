@@ -25,7 +25,7 @@ The person's verdict on each line (« Ça marche », « Ça ne marche pas », «
 
 ## Asking
 
-One question at a time, in the person's language (« tu » in the apps, « vous » with a client who uses it), never about implementation. Offer the likely answers as numbered choices with the one you recommend first, and say back what you understood. Facts you can check by looking are not questions. Stop when no answer would change the card.
+One turn, one question with everything open in it (in a Studio app, one `tasks_block`: your recommended answer first, ending with what happens with no answer), in the person's language (« tu » in the apps, « vous » with a client who uses it), never about implementation. Offer the likely answers as numbered choices with the one you recommend first, and say back what you understood. Facts you can check by looking are not questions. Stop when no answer would change the card.
 
 ## The two kinds of yes
 
@@ -42,7 +42,13 @@ Every AC line ends with who checks it, so a Studio app's gates can read it:
 - `check: agent how: <rung> …`, the `how` starting with `types`, `test`, `journey`, `eval` or `rehearsal`, for what a machine proves.
 - `check: expert how: sample` or `how: recette`, at most five lines, only for what needs the expert's trade or taste or touches an irreversible risk. When unsure, write `agent` and say so. An expert line names the person and a date in its text, before `check:` (`task-card`, rule 2).
 - When the feature writes text or reads documents: ask once, in the same turn, for three or four fictional cases with the output the person expects for each, and write one expert `sample` line and one agent `eval` line. The expert writes that output himself and attaches each case as `sample: <case>`; never title anything `sample:` yourself.
-- When a request steps outside the process (launch with no sample, a second wave, a round before the tester's walk), say in one sentence which rule holds it and what moves it, in the person's language, then go on. Say it once.
+- The card's shape (AC-1): a title of what it lets the person do, at most 60 characters; `Serves:` says who, where (place, device, moment) and their own figure of use, or a proposed one marked « à confirmer » / "to confirm" that goes into the question; three to seven lines, each a gesture and what the person sees; the need ends with « Fini quand : … » / "Done when: …", never reworded later; out of scope is never empty.
+- One mockup (AC-2), written in the need as « Maquette : aucune | écran | échantillon »: none for a behaviour or a fix with no new screen; a screen the builder shows before building, with its expert line; the output sample for text or documents, plus one fictional file of the real shape (separator, encoding, size) for a document it reads.
+- Never invent the spec (AC-3): no format, heading, order or filler (« à compléter ») the person did not give; an undefined trade word that decides the result (« missing », « late », « validated ») goes into the question with your best guess.
+- States (AC-4): a thing that moves through steps, waits, expires or can be undone names the person's states in their words and one line of what is refused; implied states go into the question; a plain list or form gets none.
+- One question (AC-5): everything open in one question, the sample's cases inside it; no other question in your answer, and none after an answer unless it opened a new point.
+- Words (AC-6): the person's language for the answer and the card's lines; no id, state name, rung or tool word to a person who does not own the app; where a card stands in the four phrases above, « Disponible dans l'app » once live, never « terminé » before its impact review.
+- Outside the process (AC-7: launch with no sample, « mark it finished », a new feature while a card waits for the expert): one reminder of at most four sentences in the person's language (what is outside, the rule, what we do instead, « Tu maintiens ? »), never twice; if they maintain and the rule is theirs to lift, name the gesture that lifts it and write the deviation on the card.
 - What moves a rule: the missing step, or a person's override with a reason on the card. The app's owner may override any rule; the card's requester only the sample rule and the tester's walk; an agent never, and you never.
 
 ## Ready means reviewed
